@@ -1,6 +1,6 @@
 /**
  * ===========================================================================
- * The Main View of BellBook.
+ * The View of Bellbook that encloses all other views
  *
  * ---------------------------------------------------------------------------
  * Copyright: ©2012 Vervious (Benjamin Chan) All Rights Reserved.
@@ -13,7 +13,7 @@
 // Modified 08-19-2012 by Vervious
  
 // Ask for dependencies...
-define('views/bellbook', [
+define('views/emperor', [
 		'ember'
 	],
 	/**
@@ -23,10 +23,18 @@ define('views/bellbook', [
 	 * @returns Class
 	 */
 	function() {
-		return Ember.View.extend({
-			mouseDown: function() {
-			    window.alert("hello world!");
-			}
+		return Ember.ContainerView.extend({
+			childViews: [ 'inputView' ],
+			inputView: Ember.TextField.create({
+				placeholder: 'ISBN13',
+				elementId: 'isbn-input-field',
+				insertNewline: function() {
+					var value = this.get( 'value' );
+					if ( value ) {
+						alert("value: " + value);
+					}
+				}
+			})
 		});
 	}
 );

@@ -41,14 +41,6 @@ require.config({
     }
 });
 
-// ===================================================================
-// For every "module", 
-// There is a Controller, View, and Handlebars file with the same name
-// ===================================================================
-// So far, the module list (architecture)
-// > Emperor
-//
-
 
 // We tell RequireJS to define dependencies (aka load these files!)
 // Define "defines" a reusuable module, like the app, or a view, etc. Require simply requires a file.
@@ -56,22 +48,21 @@ require.config({
 define( 'app', [
 	// dependencies
 	'router',
-	'views/emperor',
-	'controller/emperor',
+	'views/bellbook',
 	'ember'
 	], 
 	/* In RequireJS, this is a callback function that is called when all of ^ finishes loading.
 	 * Hence, we put all our app logic in here. The arguments of the function
 	 * are the different objects RequireJS loaded for us. */
-	function( mainRouter, emperorView, emperorController ) {
+	function( mainRouter, bellbookMainView ) {
 		App = Ember.Application.create({
 			VERSION: '1.0',
 			rootElement: '#bellbookapp',
 			// Establish our... Navigator!
 			Router: mainRouter,
 			// Extend to inherit outlet support
-			EmperorController: emperorController,
-			EmperorView: emperorView
+			ApplicationController: Ember.Controller.extend(),
+			ApplicationView: bellbookMainView
 		});
 
 

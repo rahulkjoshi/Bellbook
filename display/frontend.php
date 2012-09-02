@@ -21,6 +21,7 @@
 </head>
 <body>
   <section id="bellbookapp">
+    <!-- web app content goes here -->
   </section>
 
   <!-- Use Require.js to load all controller logic -->
