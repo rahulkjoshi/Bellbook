@@ -13,9 +13,9 @@
 // Modified 08-19-2012 by Vervious
  
 // Ask for dependencies...
-define('logic/views/emperor', [
+define('logic/views/start', [
 		// Load as text/string since it's not javascript
-		'text!display/templates/emperor.handlebars',
+		'text!display/templates/start.handlebars',
 		'ember'
 	],
 	/**
@@ -24,9 +24,9 @@ define('logic/views/emperor', [
 	 *
 	 * @returns Class
 	 */
-	function( emperorTemplate ) {
+	function( startTemplate ) {
 		return Ember.View.extend({
-			template: Ember.Handlebars.compile( emperorTemplate ),
+			template: Ember.Handlebars.compile( startTemplate ),
 		});
 	}
 );

@@ -21,12 +21,12 @@
 </head>
 <body>
   <section id="bellbookapp">
-    <!-- web app content goes here -->
+    <!-- web app content goes here, as defined by App.rootElement -->
   </section>
 
   <!-- Use Require.js to load all controller logic -->
   <!-- data-main allows us to load app.js after require.js is loaded -->
-  <script data-main="logic/app.js" src="logic/libs/require/require.js"></script>
+  <script data-main="app.js" src="logic/libs/require/require.js"></script>
 
 </body>
 </html>

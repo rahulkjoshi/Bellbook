@@ -14,7 +14,7 @@
  
 // Book representation/model
 // returns @Class
-define('models/book', 
+define('logic/models/book', 
 	['ember'], // dependencies
 	function() {
 		return Ember.Object.extend({

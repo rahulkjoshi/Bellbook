@@ -1,6 +1,6 @@
 /**
  * ===========================================================================
- * HI. I tell you where to go.
+ * HI. I tell you where to go, and I load all the views.
  *
  * ---------------------------------------------------------------------------
  * Copyright: ©2012 Vervious (Benjamin Chan) All Rights Reserved.
@@ -17,10 +17,12 @@
 // Define a module, with dependencies...
 // If you're still not getting the hang of these modules, ask me questions! (Ben)
 // Read all comments to learn about how routers work.
-define('router', 
+define('logic/router', 
 	// dependencies
 	['ember'],
+
 	function() {
+
 		// In essence, the purpose of a router in a webapp is to assign URLS to each page displayed
 		// so that users can link their friends and have the same things appear, etc.
 		var appNavigator = Ember.Router.extend({
@@ -34,7 +36,19 @@ define('router',
 				index: Ember.Route.extend({
 					route: '/',
 					index: Ember.Route.extend ({
-						route: '/'
+						route: '/',
+						connectOutlets: function(router) {
+							// Put "start" view (with the ISBN box) into the emperor view
+							/* What connectOutlet does:
+
+							 * Look for a (usually previously created) controller corresponding to the name. In this case, startController.
+							 * Instantiate a view corresponding to the name. In this case, create an instance of StartView.
+							 * Set the view property of the controller to the newly instantiated view.
+
+							*/
+							var currentController = router.get('applicationController');
+				            currentController.connectOutlet('start');
+						}
 					}),
 					isbnChosen: Ember.Route.extend ({
 						route: '/:isbn',
@@ -54,6 +68,12 @@ define('router',
 				})
 			})
 		});
+
+		/* Utility Functions */
+		function lazyLoad() {
+
+		}
+		
 		return appNavigator;
 	}
 );

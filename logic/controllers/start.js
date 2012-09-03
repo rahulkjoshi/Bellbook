@@ -1,6 +1,6 @@
 /**
  * ===========================================================================
- * Emperor controls all controllers... and nothing else.
+ * Start controls the "start" view, where there is an isbn input bar...
  * ---------------------------------------------------------------------------
  * Copyright: ©2012 Vervious (Benjamin Chan) All Rights Reserved.
  * 			  Portions ©2012 Your Name Here
@@ -11,9 +11,9 @@
 
 // Modified 08-19-2012 by Vervious
  
-define('logic/controllers/emperor', 
+define('logic/controllers/start', 
 	[ 'ember' ],
-	function( emperorViewClass ) {
+	function( ) {
 		// Note that controllers are defined separately from views
 		// The relationship between the two is up to the view, router, or Ember to create
 		// --------------------------------------------------------------------------------------
@@ -22,7 +22,9 @@ define('logic/controllers/emperor',
 		return Ember.Controller.extend({
 			init: function(){
 		        this._super(); // must call super for framework code
-		    }
+		    },
+		    // The current input value; usually bound to a subproperty of StartView in start.handlebars
+		    isbnInput: ""
 		});
 	}
 );

@@ -12,7 +12,7 @@
 
 // Modified 08-19-2012 by Vervious
  
-define('controllers/chooser', 
+define('logic/controllers/chooser', 
 	[ 'ember' ],
 	function() {
 		
