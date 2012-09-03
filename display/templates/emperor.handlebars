@@ -1,6 +1,9 @@
-<!-- Emperor View -->
+<!-- Emperor View: Rendering Context = Emperor Controller Singleton -->
 <h1>This is the Emperor view</h1>
-{{view "InputField" valueBinding="isbnInput" }} <!-- this searches the controller an InputField - see EmperorController -->
+
+<!-- Target: Emperor Controller -->
+{{view Ember.TextField placeholder="ISBN13" valueBinding="isbnInput" target=this action="openBookWithInputField" insertNewline=sendAction }} 
+
 {{isbnInput}}
 
 {{outlet}} <!-- A view within a view; everything else goes here -->

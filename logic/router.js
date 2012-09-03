@@ -19,9 +19,9 @@
 // Read all comments to learn about how routers work.
 define('logic/router', 
 	// dependencies
-	['Bellbook'],
+	['ember'],
 
-	function( Bellbook ) {
+	function() {
 
 		// In essence, the purpose of a router in a webapp is to assign URLS to each page displayed
 		// so that users can link their friends and have the same things appear, etc.
@@ -87,7 +87,7 @@ define('logic/router',
 				// Book: Shows the book with the entered ISBN
 				book: Ember.Route.extend ({
 					route: '/book',
-					book: Ember.Route.extend ({
+					bookid: Ember.Route.extend ({
 						route: '/:isbn13',
 						connectOutlets: function(router) {
 						}	
@@ -99,7 +99,7 @@ define('logic/router',
 			// Lazily load a controller, looking in the normal places
 			addControllerAndView: function ( name, parentController, context ) {
 				router = this; // After all, we are the router
-				console.log(router);
+
 				require([ "logic/controllers/" + name, "logic/views/" + name ], 
 					function ( NameController, NameView ) {
 						var newController = router.get('applicationController');
@@ -107,8 +107,7 @@ define('logic/router',
 							newController = NameController.create() 
 			                newController.setProperties({
 			                    target: router,
-			                    controllers: router,
-			                    namespace: router.get('applicationController').namespace
+			                    controllers: router
 			                });
 			                router.set( name + 'Controller', newController );
 			            }

@@ -12,11 +12,12 @@
  * ===========================================================================
  */
 
-// Modified 08-19-2012 by Vervious
+// Modified 09-01-2012 by Vervious
  
 
-// BellBook uses RequireJS to load files (see http://www.adequatelygood.com/2010/3/JavaScript-Module-Pattern-In-Depth)
+// Bellbook uses RequireJS to load files (see http://www.adequatelygood.com/2010/3/JavaScript-Module-Pattern-In-Depth)
 // The following defines libraries as shortcut aliases (so we don't have to type them out every time)
+// If you're new to Bellbook you can ignore this section.
 require.config({
 	baseUrl: '', // relative to app.js
 	paths: {
@@ -41,6 +42,7 @@ require.config({
     }
 });
 
+
 // ===================================================================
 // For every "module", 
 // There is a Controller, View, and Handlebars file with the same name
@@ -55,10 +57,11 @@ require.config({
 // Open Diagram.jpg (in Bowl of Experiments) before going further - that is the app structure.
 
 
+
 // We tell RequireJS to define dependencies (aka load these files!)
 // Define "defines" a reusuable module, like the app, or a view, etc. Require simply requires a file.
 // In the callback we load our application. TODO: Incorporate the router.
-define( 'Bellbook', [
+define( 'app', [
 	// dependencies
 	'logic/router',
 	'logic/controllers/emperor',
@@ -75,7 +78,7 @@ define( 'Bellbook', [
 		EmperorController, EmperorView, 
 		StartController, StartView
 	 ) {  // NOTE that these are CLASSES (as evidenced by the Capitalized names)
-		Bellbook = Ember.Application.create({
+		App = Ember.Application.create({
 			VERSION: '1.0',
 			rootElement: '#bellbookapp',
 			// Establish our... Navigator!
@@ -94,8 +97,7 @@ define( 'Bellbook', [
 			}
 		});
 
-		// Expose the application globally
-		return window.Bellbook = Bellbook;
+		return window.Bellbook = App;
 	}
 );
 
