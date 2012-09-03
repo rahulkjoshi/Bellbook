@@ -13,8 +13,8 @@
  
 define('logic/controllers/start', 
 	[ 'ember' ],
-	function( ) {
-		// Note that controllers are defined separately from views
+	function(  ) {
+		// Note that controllers are defined separately from views - sort of
 		// The relationship between the two is up to the view, router, or Ember to create
 		// --------------------------------------------------------------------------------------
 		// HOWEVER, when rendering, the view can get a reference to the controller who is controlling it
@@ -22,9 +22,7 @@ define('logic/controllers/start',
 		return Ember.Controller.extend({
 			init: function(){
 		        this._super(); // must call super for framework code
-		    },
-		    // The current input value; usually bound to a subproperty of StartView in start.handlebars
-		    isbnInput: ""
+		    }
 		});
 	}
 );

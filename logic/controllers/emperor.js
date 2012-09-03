@@ -9,12 +9,13 @@
  * ===========================================================================
  */
 
-// Modified 08-19-2012 by Vervious
+// Modified 09-01-2012 by Vervious
  
 define('logic/controllers/emperor', 
-	[ 'ember' ],
-	function( emperorViewClass ) {
-		// Note that controllers are defined separately from views
+	[ 'ember', 'Bellbook' ],
+	// We get a reference to the app
+	function( Bellbook ) {
+		// Note that controllers are defined separately from views - sort of
 		// The relationship between the two is up to the view, router, or Ember to create
 		// --------------------------------------------------------------------------------------
 		// HOWEVER, when rendering, the view can get a reference to the controller who is controlling it
@@ -22,6 +23,20 @@ define('logic/controllers/emperor',
 		return Ember.Controller.extend({
 			init: function(){
 		        this._super(); // must call super for framework code
+		    },
+		    // A reference to the router that is set by app.js or router.js
+		    router: null,
+		    // An input field that we manage that templates can ask us for
+		    InputField: Ember.TextField.extend({
+				placeholder: 'ISBN13',
+				insertNewline: function() {
+
+				}
+			}),
+		    // The current input value; usually bound to a subproperty of EmperorView in emperor.handlebars
+		    isbnInput: "",
+		    // Actions
+		    openBookWithISBN: function( isbn13 ) {
 		    }
 		});
 	}

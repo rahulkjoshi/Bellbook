@@ -52,12 +52,13 @@ require.config({
 //		> Start
 //  	> Home (todo)
 //
+// Open Diagram.jpg (in Bowl of Experiments) before going further - that is the app structure.
 
 
 // We tell RequireJS to define dependencies (aka load these files!)
 // Define "defines" a reusuable module, like the app, or a view, etc. Require simply requires a file.
 // In the callback we load our application. TODO: Incorporate the router.
-define( 'app', [
+define( 'Bellbook', [
 	// dependencies
 	'logic/router',
 	'logic/controllers/emperor',
@@ -74,15 +75,11 @@ define( 'app', [
 		EmperorController, EmperorView, 
 		StartController, StartView
 	 ) {  // NOTE that these are CLASSES (as evidenced by the Capitalized names)
-		BellBook = Ember.Application.create({
+		Bellbook = Ember.Application.create({
 			VERSION: '1.0',
 			rootElement: '#bellbookapp',
 			// Establish our... Navigator!
 			Router: MainRouter,
-
-			/* REGISTER all the classes we will be using */
-			/* Ember makes it a pain to dynamically add classes, constantly saying that they're undefined,
-			 * so we might as well do it here. */
 
 			// Extend to inherit outlet support
 			// The emperor/root object (super duper rendering context)
@@ -91,10 +88,6 @@ define( 'app', [
 			ApplicationController: EmperorController,
 			ApplicationView: EmperorView, // ApplicationView is necessary for Ember to function
 
-			// Start screen
-			StartController: StartController,
-			StartView: StartView,
-
 			ready: function() {
 				// Start the app and load all resources
 				this.initialize();
@@ -102,7 +95,7 @@ define( 'app', [
 		});
 
 		// Expose the application globally
-		return window.BellBook = BellBook;
+		return window.Bellbook = Bellbook;
 	}
 );
 
