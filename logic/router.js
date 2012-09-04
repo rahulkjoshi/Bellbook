@@ -17,6 +17,7 @@
 // Define a module, with dependencies...
 // If you're still not getting the hang of these modules, ask me questions! (Ben)
 // Read all comments to learn about how routers work.
+// The Ember documentation is pretty good concerning Router - keep it open while you work.
 define('logic/router', 
 	// dependencies
 	['ember'],
@@ -26,39 +27,25 @@ define('logic/router',
 		// In essence, the purpose of a router in a webapp is to assign URLS to each page displayed
 		// so that users can link their friends and have the same things appear, etc.
 		var appNavigator = Ember.Router.extend({
+			enableLogging: true,
 			// Here you encounter what is known as "States"
 			// Read <<<http://codebrief.com/2012/03/make-the-most-of-your-routes/>>> for the basic concepts before continuing.
 			// Note that only leaf nodes are routable
 			root: Ember.Route.extend({
 				doHome: function(router, event) {
-			        router.transitionTo('index');
+			        router.transitionTo('home');
+			    },
+			    // Load the book with the given context, with context in form {isbn: value}
+			    loadBookForIsbn: function(router, isbn13Hash) {
+			        router.transitionTo('books.book', isbn13Hash);
 			    },
 				// The entry point (usually); BellBook redirects to either start, or home
-				// based on whether the user has any current transactions.
+				// based on whether the user has any current transactions. (todo)
 				// Emperor is already connected for us.
 				index: Ember.Route.extend({
 					route: '/',
-					redirectsTo: 'startHome',
-					/*enter: function(router) {
-				            var shouldDisplayStart = true;
-				            Ember.run.next(function() {
-				                if (shouldDisplayStart) {
-				                    router.transitionTo('start');
-				                } else {
-				                    router.transitionTo('home');
-				                }
-				            });
-				        },*/
+					redirectsTo: 'startHome'
 					// Only leaf nodes are routable
-					// Child nodes,
-					// When we first enter... this function is called
-					enter: function(router) {
-			          	console.log("entering root.home from", router.get('currentState.name'));
-			        },
-			        // When we have fully entered this state/route, we connect stuff
-			        connectOutlets: function(router) {
-			          	var controller = router.get( 'applicationController' );
-			        }
 				}),
 				// The "start" route - there's a naming conflict hence the non-matching name
 				startHome: Ember.Route.extend ({
@@ -70,7 +57,8 @@ define('logic/router',
 						 * Look for a (usually previously created) controller corresponding to the name. In this case, startController.
 						 * Instantiate a view corresponding to the name. In this case, create an instance of StartView.
 						 * Set the view property of the controller to the newly instantiated view.
-
+						 * If there's a context argument (the last argument), sets context as createdController.content, which is
+						 * then accessible as {{content}} in the view template.
 						*/
 						var parentController = router.get('applicationController');
 						// Load the controller and create the outlets
@@ -84,14 +72,27 @@ define('logic/router',
 						
 					}
 				}),
-				// Book: Shows the book with the entered ISBN
-				book: Ember.Route.extend ({
-					route: '/book',
-					bookid: Ember.Route.extend ({
-						route: '/:isbn13',
-						connectOutlets: function(router) {
-						}	
+				// Books: Shows all books
+				books: Ember.Route.extend ({
+					route: '/books',
+					index: Ember.Route.extend({
+						route: '/',
+						redirectsTo: 'browseall'
+					}),
+					// Book: Shows the book with the entered ISBN
+					// Context: {isbn: value}
+					book: Ember.Route.extend ({
+						route: '/:isbn',
+						connectOutlets: function(router, isbn13Hash) {
+							// Load the controller and create the outlets
+							var parentController = router.get('applicationController');
+							router.addControllerAndView('book', parentController, isbn13Hash);
+						}
 					})
+				}),
+				// Browse All: Shows all offers, filterable
+				browseall: Ember.Route.extend ({
+					route: '/browseall' // TODO: implement
 				})
 			}),
 
@@ -99,23 +100,27 @@ define('logic/router',
 			// Lazily load a controller, looking in the normal places
 			addControllerAndView: function ( name, parentController, context ) {
 				router = this; // After all, we are the router
-
 				require([ "logic/controllers/" + name, "logic/views/" + name ], 
 					function ( NameController, NameView ) {
-						var newController = router.get('applicationController');
-						if (typeof newController == "undefined") {
-							newController = NameController.create() 
-			                newController.setProperties({
-			                    target: router,
-			                    controllers: router
+						if (NameController && NameView) {
+							var newController = router.get('applicationController');
+							if (typeof newController == "undefined") {
+								newController = NameController.create() 
+				                newController.setProperties({
+				                    target: router,
+				                    controllers: router
+				                });
+				                router.set( name + 'Controller', newController );
+				            }
+			                parentController.connectOutlet({
+			                	viewClass: NameView,
+			                	controller: newController,
+			                	context: context
 			                });
-			                router.set( name + 'Controller', newController );
-			            }
-		                parentController.connectOutlet({
-		                	viewClass: NameView,
-		                	controller: newController,
-		                	context: context
-		                });
+		           		}
+		           		else {
+		           			console.log("Missing Controller or View of type: "+name);
+		           		}
 		            }
 		        );
 			}
