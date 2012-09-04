@@ -26,6 +26,7 @@ define('logic/views/emperor', [
 	 */
 	function( emperorTemplate ) {
 		return Ember.View.extend({
+			classNames: ['fill'],
 			template: Ember.Handlebars.compile( emperorTemplate )
 		});
 	}

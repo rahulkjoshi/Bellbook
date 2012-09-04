@@ -20,7 +20,7 @@
 
 </head>
 <body>
-  <section id="bellbookapp">
+  <section id="bellbookapp" class="fill">
     <!-- web app content goes here, as defined by App.rootElement -->
   </section>
 

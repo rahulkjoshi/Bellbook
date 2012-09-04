@@ -1,9 +1,20 @@
+
 <!-- Emperor View: Rendering Context = Emperor Controller Singleton -->
-<h1>This is the Emperor view</h1>
 
-<!-- Target: Emperor Controller -->
-{{view Ember.TextField placeholder="ISBN13" valueBinding="isbnInput" target=this action="openBookWithInputField" insertNewline=sendAction }} 
+<div id="full-page-input-area"> <!-- that container which contains the prompt and text box -->
+	<h1>This is the Emperor view</h1>
+	<p>This is a placeholder for the start page - the first page a user will see if he/she has yet to post/buy any books;</p>
+	<p>Asks for an ISBN and then transitions to the book-id page.</p>
 
-{{isbnInput}}
+	<!-- Target: Emperor Controller -->
+	<div id="input-field-block">
+	<label id="input-field-label"> Enter your ISBN here:
+		{{view Ember.TextField id="input-field" placeholder="ISBN13" valueBinding="isbnInput" target=this action="openBookWithInputField" insertNewline=sendAction }} 
+	</label>
+	</div>
+	<br/>
+	<h4>Data:</h4>Entered ISBN: {{isbnInput}}
+</div>
+
 
 {{outlet}} <!-- A view within a view; everything else goes here -->
