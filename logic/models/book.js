@@ -22,7 +22,8 @@ define('logic/models/book',
 			isbn10: null, // numerical, no dashes
 			title: null, // string
 			authors: null, // list of strings
-			publisher: null // string
+			publisher: null, // string
+			imageLinkSmall: null
 			// year published, place published, image url
 			// courses...
 		});

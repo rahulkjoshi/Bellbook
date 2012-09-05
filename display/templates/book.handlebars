@@ -8,18 +8,23 @@
 	<h1>This is the Book view</h1>
 	<p>This is a placeholder for a representation for a single book, identified by ISBN.</p>
 
+	<hr />
 	
 	{{#if representedBook}}
 		<!-- display book data if available -->
-	  	<p>title: {{representedBook.title}}</p>
+	  	<h1>title: {{representedBook.title}}</h1>
 		<p>ISBN: {{representedBook.isbn13}}</p>
 		<p>Author(s): 
 		{{#each representedBook.authors}}
 			({{this}})
 		{{/each}}
 		</p>
-
 		<p>publisher: {{representedBook.publisher}}</p>
+		{{#if representedBook.imageLinkSmall}}
+			<img {{bindAttr src="representedBook.imageLinkSmall"}} />
+		{{else}}
+			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png" />
+		{{/if}}
 	{{else}}
 		<!-- else, well, that sucks. -->
 	  	<p>No book found. You can blame Google. TODO: take the blame out</p>

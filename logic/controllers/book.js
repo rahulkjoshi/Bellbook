@@ -33,6 +33,7 @@ define('logic/controllers/book',
 		    },
 
 		    // The query to search for a book by ISBN using the Google Books API v1; isbn to be appended at end
+		    // TODO: conform with Google API branding guidelines.
 		    googleAPIIsbnSearchString: "https://www.googleapis.com/books/v1/volumes?q=isbn:",
 
 		    // set to 'context' by Router's connectOutlet()
@@ -45,6 +46,9 @@ define('logic/controllers/book',
 		    // We want to update our stored JSON value when our represented ISBN ('content') changes.
 		    // The JSON is loaded asynchronously so representedBook is in a separate property.
 		    contentDidChange: function() {
+		    	// Wipe previous content
+		    	this.set('googleAPIJSONForCurrentContent', null);
+		    	// Load new content
 			    var newISBN = this.get('content').isbn;
 			    var url = this.get('googleAPIIsbnSearchString') + newISBN;
 		    	console.log("Retrieving data from: " + url);
@@ -52,7 +56,6 @@ define('logic/controllers/book',
 		    	// proxy function to make sure that 'this' points to the controller inside the callback.
 		    	$.getJSON(url, $.proxy(function ( jsonData ) { 
 		    		// store the retrieved JSON data in this.googleAPIJSONForCurrentContent
-		    		console.log("SDFSDF" + jsonData);
 		    		this.set('googleAPIJSONForCurrentContent', jsonData);
 		    	}, this));
 			}.observes('content'),
@@ -78,13 +81,13 @@ define('logic/controllers/book',
 		    	}
 
 		    	// Make sure we have a clear match of ISBN to book, if not, return null.
-		    	if (updatedJSONBookData.totalItems != "1") {
+		    	if (updatedJSONBookData.totalItems < 1) {
 		    		console.log("ISBN could not be matched to one book. Number of matched results: " + updatedJSONBookData.totalItems);
 		    		return null;
 		    	}
 
 		    	// Now grab the volume from the list of volumes Google Books API should have returned
-		    	var volumeJSON = updatedJSONBookData.items[0];
+		    	var volumeJSON = updatedJSONBookData.items[0]; // TODO: Make it possible to select a book from search results (e.g. Norton)
 		    	// See {https://developers.google.com/books/docs/v1/reference/volumes} for JSON representation documentation.
 		    	if (volumeJSON.kind != "books#volume") {
 		    		console.log("Google responded with something that's not a book! Book information was not retrieved.");
@@ -94,11 +97,20 @@ define('logic/controllers/book',
 		    	// Finally, we can work with our volumeJSON data.
 		    	// Update the represented book. Any changes we make to _representedBook are saved 
 		    	// to this._representedBook because this._representedBook is an object.
-		    	_representedBook.isbn13 = volumeJSON.volumeInfo.industryIdentifiers[1].identifier;
+		    	if (volumeJSON.volumeInfo.industryIdentifiers[1])
+		    		_representedBook.isbn13 = volumeJSON.volumeInfo.industryIdentifiers[1].identifier;
+		    	else _representedBook.isbn13 = null;
 		    	_representedBook.isbn10 = volumeJSON.volumeInfo.industryIdentifiers[0].identifier;
 		    	_representedBook.title = volumeJSON.volumeInfo.title;
 		    	_representedBook.authors = volumeJSON.volumeInfo.authors;
 		    	_representedBook.publisher = volumeJSON.volumeInfo.publisher;
+		    	if (volumeJSON.volumeInfo.imageLinks) {
+		    		// TODO: User submitted images too... and search Amazon for generic images.
+		    		_representedBook.imageLinkSmall = volumeJSON.volumeInfo.imageLinks.small;
+		    		if (!_representedBook.imageLinkSmall) _representedBook.imageLinkSmall = volumeJSON.volumeInfo.imageLinks.thumbnail;
+		    		if (!_representedBook.imageLinkSmall) _representedBook.imageLinkSmall = volumeJSON.volumeInfo.imageLinks.smallThumbnail;
+		    	}
+		    	else _representedBook.imageLinkSmall = null;
 		   
 			    return _representedBook;
 
