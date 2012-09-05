@@ -73,7 +73,6 @@ define('logic/controllers/book',
 		    representedBook: function() {
 		    	var _representedBook = this.get("_representedBook");
 		    	var updatedJSONBookData = this.get("googleAPIJSONForCurrentContent");
-
 		    	// Make sure we are getting the right kind of JSON data
 		    	if (!updatedJSONBookData || updatedJSONBookData.kind != "books#volumes") {
 		    		console.log("No Book information has been retrieved yet.");

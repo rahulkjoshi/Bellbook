@@ -35,6 +35,9 @@ define('logic/router',
 				doHome: function(router, event) {
 			        router.transitionTo('home');
 			    },
+			    loadStart: function(router, event) {
+			        router.transitionTo('startHome');
+			    },
 			    // Load the book with the given context, with context in form {isbn: value} (Called an object literal)
 			    loadBookForIsbn: function(router, isbn13Hash) {
 			        router.transitionTo('books.book', isbn13Hash);
