@@ -21,9 +21,8 @@ define('logic/models/book',
 			isbn13: null, // numerical, no dashes, primary key (primary means if identifying the book)
 			isbn10: null, // numerical, no dashes
 			title: null, // string
-			authorLastName: null, // string
-			authorFirstNames: null, // string (e.g. Martin Luther)
-			publisher: null, // string
+			authors: null, // list of strings
+			publisher: null // string
 			// year published, place published, image url
 			// courses...
 		});

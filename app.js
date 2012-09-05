@@ -77,8 +77,10 @@ define( 'app', [
 		MainRouter, 
 		EmperorController, EmperorView, 
 		StartController, StartView
-	 ) {  // NOTE that these are CLASSES (as evidenced by the Capitalized names)
-		App = Ember.Application.create({
+	 ) {  
+	 	// NOTE that ^ are CLASSES (as evidenced by the Capitalized names)
+	 	// Lowercase names mean that the variable is an instance of a class.
+		app = Ember.Application.create({
 			VERSION: '1.0',
 			rootElement: '#bellbookapp',
 			// Establish our... Navigator!
@@ -97,7 +99,13 @@ define( 'app', [
 			}
 		});
 
-		return window.Bellbook = App;
+		return window.bellbook = app;
 	}
 );
+
+
+// Did you know? "ಠ_ಠ" is a valid variable name in Javascript!
+
+
+
 

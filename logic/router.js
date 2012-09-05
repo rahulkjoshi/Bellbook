@@ -35,7 +35,7 @@ define('logic/router',
 				doHome: function(router, event) {
 			        router.transitionTo('home');
 			    },
-			    // Load the book with the given context, with context in form {isbn: value}
+			    // Load the book with the given context, with context in form {isbn: value} (Called an object literal)
 			    loadBookForIsbn: function(router, isbn13Hash) {
 			        router.transitionTo('books.book', isbn13Hash);
 			    },
@@ -60,8 +60,11 @@ define('logic/router',
 						 * If there's a context argument (the last argument), sets context as createdController.content, which is
 						 * then accessible as {{content}} in the view template.
 						*/
+						// Get the emperorController
 						var parentController = router.get('applicationController');
-						// Load the controller and create the outlets
+						parentController.set("inputAreaType", "full"); // make the input area become full screen
+						parentController.set("isbnInput", ""); // Clear the search box
+						// Load the controller and connect the outlets defined by the emperorControlelr
 						router.addControllerAndView('start', parentController, null);
 					}
 				}),
@@ -84,8 +87,10 @@ define('logic/router',
 					book: Ember.Route.extend ({
 						route: '/:isbn',
 						connectOutlets: function(router, isbn13Hash) {
-							// Load the controller and create the outlets
+							// Load the controller and connect the outlets defined by the emperorControlelr
 							var parentController = router.get('applicationController');
+							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
+							parentController.set("isbnInput", isbn13Hash.isbn); // Have the search box contain the isbn 
 							router.addControllerAndView('book', parentController, isbn13Hash);
 						}
 					})
@@ -103,9 +108,9 @@ define('logic/router',
 				require([ "logic/controllers/" + name, "logic/views/" + name ], 
 					function ( NameController, NameView ) {
 						if (NameController && NameView) {
-							var newController = router.get('applicationController');
+							var newController = router.get(name + 'Controller');
 							if (typeof newController == "undefined") {
-								newController = NameController.create() 
+								newController = NameController.create();
 				                newController.setProperties({
 				                    target: router,
 				                    controllers: router

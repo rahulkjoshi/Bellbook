@@ -1,10 +1,29 @@
 
 <!-- Book View: Rendering Context = Book Controller Singleton -->
 <!-- Note that the context {isbn: value} is passed in as "content" -->
+<!-- Also note that we have a Book model object named "representedBook" to represent. -->
 
 <!-- shown beneath the fold -->
 <div id="book">
 	<h1>This is the Book view</h1>
 	<p>This is a placeholder for a representation for a single book, identified by ISBN.</p>
-	ISBN: {{content.isbn}}
+
+	
+	{{#if representedBook}}
+		<!-- display book data if available -->
+	  	<p>title: {{representedBook.title}}</p>
+		<p>ISBN: {{representedBook.isbn13}}</p>
+		<p>Author(s): 
+		{{#each representedBook.authors}}
+			({{this}})
+		{{/each}}
+		</p>
+
+		<p>publisher: {{representedBook.publisher}}</p>
+	{{else}}
+		<!-- else, well, that sucks. -->
+	  	<p>No book found. You can blame Google. TODO: take the blame out</p>
+	{{/if}}
+
+	
 </div>
