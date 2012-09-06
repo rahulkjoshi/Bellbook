@@ -19,7 +19,7 @@ define('logic/controllers/emperor',
 		/* we define some utility functions first */
 		function isIsbn13Valid( isbn13 ) { // temporary solution copied off the internet for the sake of time. TODO: verify/rewrite
 			if(/-/.test(isbn13)){
-		    	isbn13=isbn13.replace(/-/g,'')*1
+		    	isbn13=isbn13.replace(/-/g,'')*1;
 		    }
 		    check = 0;
 		    for (i = 0; i < 13; i+=2) {
@@ -80,7 +80,8 @@ define('logic/controllers/emperor',
 		    returnToStart: function() {
 				var router = this.get('target');
 		    	if (router) {
-		    		router.send('loadStart');
+		    		if (router.currentState.name != 'startHome')
+		    			router.send('loadStart');
 		    	}
 		    }
 		});

@@ -23,7 +23,7 @@ require.config({
 	paths: {
 		handlebars: 'logic/libs/handlebars-1.0.0.beta.6',
 		jquery: 'logic/libs/jquery-1.7.2.min',
-		ember: 'logic/libs/ember-1.0.pre',
+		ember: 'logic/libs/ember-1.0.pre.min',
 		emberrest: 'logic/libs/ember-rest',
 		text: 'logic/libs/require/text'
 	},
