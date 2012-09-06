@@ -31,7 +31,11 @@ define('logic/controllers/emperor',
 		    return check % 10 == 0;
 		}
 		function isIsbn10Valid( isbn10 ) { // temporary solution copied off the internet for the sake of time. TODO: verify/rewrite
-			return false;
+			check = 0;
+			for (i = 0; i < 9; i++) {
+				check += (i+1) * isbn10.toString()[i];
+			}
+			return check % 11 == isbn10.toString()[9];
 		}
 
 
