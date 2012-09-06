@@ -3,7 +3,6 @@
 <!-- Note that the context {isbn: value} is passed in as "content" -->
 <!-- Also note that we have a Book model object named "representedBook" to represent. -->
 
-<!-- shown beneath the fold -->
 <div id="book">
 	<h1>This is the Book view</h1>
 	<p>This is a placeholder for a representation for a single book, identified by ISBN.</p>
@@ -25,6 +24,11 @@
 		{{else}}
 			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png" />
 		{{/if}}
+
+	<a {{action loadList}}>
+    	click me to view book listings (should only appear if validated and book is found)
+  	</a>
+
 	{{else}}
 		<!-- else, well, that sucks. -->
 	  	<p>No book found. You can blame Google. TODO: take the blame out</p>
@@ -33,3 +37,5 @@
 	<p>Data courtesy of the allmighty Google. TODO: adhere to Google Books API <a href="https://developers.google.com/books/branding">Branding guidelines</a>. </p>
 	
 </div>
+
+{{outlet}} <!-- Views that have book information listed go here, e.g. listings -->

@@ -10,7 +10,7 @@
  * ===========================================================================
  */
 
-// Modified 08-21-2012 by Vervious
+// Modified 09-05-2012 by Vervious
 
 /* Informational read: http://codebrief.com/2012/07/anatomy-of-an-ember-dot-js-app-part-i-redux-routing-and-outlets/ */
  
@@ -88,13 +88,32 @@ define('logic/router',
 					// Context: {isbn: value}
 					book: Ember.Route.extend ({
 						route: '/:isbn',
+						loadList: function(router, event) {
+					        router.transitionTo('list');
+					    },
+						// Connect the book and controller
 						connectOutlets: function(router, isbn13Hash) {
 							// Load the controller and connect the outlets defined by the emperorControlelr
 							var parentController = router.get('applicationController');
 							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
 							parentController.set("isbnInput", isbn13Hash.isbn); // Have the search box contain the isbn 
 							router.addControllerAndView('book', parentController, isbn13Hash);
-						}
+						},
+						// (remember that you can only load leaf nodes/routes)
+						index: Ember.Route.extend({
+							route: '/'
+						}),
+						// List the available books
+						list: Ember.Route.extend({
+							route: '/list',
+							connectOutlets: function(router) {
+								// Load the controller and connect the outlets defined by the bookController
+								var parentController = router.get('bookController');
+								if (parentController) {
+									router.addControllerAndView('list', parentController, null);
+								}
+							}
+						}),
 					})
 				}),
 				// Browse All: Shows all offers, filterable
@@ -137,5 +156,9 @@ define('logic/router',
 		return appNavigator;
 	}
 );
+
+// NOTE about memory management - I'm not sure if we have to manually destroy the controllers that we create. TODO: figure out if we have to.
+
+
 
 
