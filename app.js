@@ -23,7 +23,7 @@ require.config({
 	paths: {
 		handlebars: 'logic/libs/handlebars-1.0.0.beta.6',
 		jquery: 'logic/libs/jquery-1.7.2.min',
-		ember: 'logic/libs/ember-1.0.pre.min',
+		ember: 'logic/libs/ember-1.0.pre',
 		emberrest: 'logic/libs/ember-rest',
 		text: 'logic/libs/require/text'
 	},
@@ -80,7 +80,8 @@ define( 'app', [
 	 ) {  
 	 	// NOTE that ^ are CLASSES (as evidenced by the Capitalized names)
 	 	// Lowercase names mean that the variable is an instance of a class.
-		app = Ember.Application.create({
+	 	// Except for 'App' - because it's also a namespace.
+		App = Ember.Application.create({
 			VERSION: '1.0',
 			rootElement: '#bellbookapp',
 			// Establish our... Navigator!
@@ -99,7 +100,7 @@ define( 'app', [
 			}
 		});
 
-		return window.bellbook = app;
+		return window.Bellbook = App;
 	}
 );
 

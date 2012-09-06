@@ -66,7 +66,6 @@ define('logic/router',
 						// Get the emperorController
 						var parentController = router.get('applicationController');
 						parentController.set("inputAreaType", "full"); // make the input area become full screen
-						parentController.set("isbnInput", ""); // Clear the search box
 						// Load the controller and connect the outlets defined by the emperorControlelr
 						router.addControllerAndView('start', parentController, null);
 					}

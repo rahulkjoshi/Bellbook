@@ -47,9 +47,9 @@ define('logic/controllers/book',
 		    // The JSON is loaded asynchronously so representedBook is in a separate property.
 		    contentDidChange: function() {
 		    	// Wipe previous content
-		    	this.set('googleAPIJSONForCurrentContent', null);
+		    	this.set('googleAPIJSONForCurrentContent', {});
 		    	// Load new content
-			    var newISBN = this.get('content').isbn;
+			    var newISBN = this.content.isbn;
 			    var url = this.get('googleAPIIsbnSearchString') + newISBN;
 		    	console.log("Retrieving data from: " + url);
 		    	// Because the scope ('this') changes when entering the function normally, use jQuery's
