@@ -47,9 +47,9 @@ define('logic/controllers/book',
 		    // The JSON is loaded asynchronously so representedBook is in a separate property.
 		    contentDidChange: function() {
 		    	// Wipe previous content
-		    	this.set('googleAPIJSONForCurrentContent', {});
+		    	//this.set('googleAPIJSONForCurrentContent', {});
 		    	// Load new content
-			    var newISBN = this.content.isbn;
+			    var newISBN = this.get('content').isbn;
 			    var url = this.get('googleAPIIsbnSearchString') + newISBN;
 		    	console.log("Retrieving data from: " + url);
 		    	// Because the scope ('this') changes when entering the function normally, use jQuery's
@@ -97,23 +97,24 @@ define('logic/controllers/book',
 		    	// Update the represented book. Any changes we make to _representedBook are saved 
 		    	// to this._representedBook because this._representedBook is an object.
 		    	if (volumeJSON.volumeInfo.industryIdentifiers[1])
-		    		_representedBook.isbn13 = volumeJSON.volumeInfo.industryIdentifiers[1].identifier;
-		    	else _representedBook.isbn13 = null;
-		    	_representedBook.isbn10 = volumeJSON.volumeInfo.industryIdentifiers[0].identifier;
-		    	_representedBook.title = volumeJSON.volumeInfo.title;
-		    	_representedBook.authors = volumeJSON.volumeInfo.authors;
-		    	_representedBook.publisher = volumeJSON.volumeInfo.publisher;
+		    		_representedBook.set('isbn13', volumeJSON.volumeInfo.industryIdentifiers[1].identifier);
+		    	else _representedBook.set('isbn13', null);
+		    	_representedBook.set('isbn10', volumeJSON.volumeInfo.industryIdentifiers[0].identifier);
+		    	_representedBook.set('title', volumeJSON.volumeInfo.title);
+		    	_representedBook.set('authors', volumeJSON.volumeInfo.authors);
+		    	_representedBook.set('publisher', volumeJSON.volumeInfo.publisher);
 		    	if (volumeJSON.volumeInfo.imageLinks) {
 		    		// TODO: User submitted images too... and search Amazon for generic images.
-		    		_representedBook.imageLinkSmall = volumeJSON.volumeInfo.imageLinks.small;
-		    		if (!_representedBook.imageLinkSmall) _representedBook.imageLinkSmall = volumeJSON.volumeInfo.imageLinks.thumbnail;
-		    		if (!_representedBook.imageLinkSmall) _representedBook.imageLinkSmall = volumeJSON.volumeInfo.imageLinks.smallThumbnail;
+		    		var imageLink = volumeJSON.volumeInfo.imageLinks.small;
+		    		if (!imageLink) imageLink = volumeJSON.volumeInfo.imageLinks.thumbnail;
+		    		if (!imageLink) imageLink = volumeJSON.volumeInfo.imageLinks.smallThumbnail;
+		    		_representedBook.set('imageLinkSmall', imageLink); // can be null
 		    	}
-		    	else _representedBook.imageLinkSmall = null;
+		    	else _representedBook.set('imageLinkSmall', false);
 		   
 			    return _representedBook;
 
 			}.property('googleAPIJSONForCurrentContent'), // whenever 'googleAPIJSONForCurrentContent' changes, representedBook is updated
-		});
+		});googleAPIJSONForCurrentContent
 	}
 );
