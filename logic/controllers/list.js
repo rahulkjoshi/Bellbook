@@ -24,9 +24,16 @@ define('logic/controllers/list',
 
 			init: function(){
 		        this._super(); // must call super for framework code
-		        
+		    },
 
-		    }
+		    // "Binding source"... we ask for a binding from 'content'
+		    // Set by router.js, as the context. Usually it would be
+		    // a BookController
+		    content: null,
+
+		    // The book we represent, as a binding...
+		    // access as this.get('representedBook')
+		    representedBookBinding: "content.representedBook"
 		});
 	}
 );

@@ -16,11 +16,10 @@ define('logic/controllers/emperor',
 	// Subclass of BelbookController
 	function( BellbookController ) {
 
-		/* we define some utility functions first */
-		function isIsbn13Valid( isbn13 ) { // temporary solution copied off the internet for the sake of time. TODO: verify/rewrite
-			if(/-/.test(isbn13)){
-		    	isbn13=isbn13.replace(/-/g,'')*1;
-		    }
+		// Checks if the passed in string is a valid ISBN13
+		// @param string input
+		// @return boolean whether valid
+		function isIsbn13Valid( isbn13 ) { 
 		    check = 0;
 		    for (i = 0; i < 13; i+=2) {
 		      	check += isbn13.toString()[i]*1;
@@ -30,7 +29,10 @@ define('logic/controllers/emperor',
 		    }
 		    return check % 10 == 0;
 		}
-		function isIsbn10Valid( isbn10 ) { // temporary solution copied off the internet for the sake of time. TODO: verify/rewrite
+		// Checks if the passed in string is a valid ISBN10
+		// @param string input
+		// @return boolean whether valid
+		function isIsbn10Valid( isbn10 ) { 
 			check = 0;
 			for (i = 0; i < 9; i++) {
 				check += (i+1) * isbn10.toString()[i];
@@ -61,7 +63,10 @@ define('logic/controllers/emperor',
 		    // Actions
 		    isbnInputDidChange: function () {
 		    	var newISBNInput = this.get('isbnInput');
-		    	// TODO: strip input
+
+		    	// Now, strip the input so that it is a string with only digits
+			    newISBNInput = newISBNInput.replace(/[^0-9]+/g, '');
+
 		    	var valid = isIsbn10Valid(newISBNInput) || isIsbn13Valid(newISBNInput);
 		    	if (valid) {
 		    		this.openBookWithISBN(newISBNInput);
@@ -70,16 +75,19 @@ define('logic/controllers/emperor',
 		    		this.returnToStart();
 		    	}
 		    }.observes('isbnInput'),
+
 		    // Load the specified book child screen, passing in the isbn as context.
 		    openBookWithISBN: function( isbn ) {
+		    	var router = this.get('target');
 		    	// What is set() and get()? You should use these to set properties and get the values of properties.
 		    	// Why not just use Object.property? Because ember relies on set() and get() to make bindings work.
 		    	// So just use set("property", newVal) and get("property").
-		    	var router = this.get('target');
-		    	if (router && isbn) {
-		    		router.send('loadBookForIsbn', {isbn: isbn});
+		    	if (router && isbn ) {
+		    		if (router.currentState.name != 'book')
+		    			router.send('loadBookForIsbn', {isbn: isbn});
 		    	}
 		    },
+
 		    // load the start child screen again.
 		    returnToStart: function() {
 				var router = this.get('target');

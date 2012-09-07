@@ -31,6 +31,7 @@ define('logic/router',
 			// Here you encounter what is known as "States"
 			// Read <<<http://codebrief.com/2012/03/make-the-most-of-your-routes/>>> for the basic concepts before continuing.
 			// Note that only leaf nodes are routable
+			// Note that there is a "root" state, "start(Home)" state, "book" state, etc.
 			root: Ember.Route.extend({
 				doHome: function(router, event) {
 			        router.transitionTo('home');
@@ -40,7 +41,7 @@ define('logic/router',
 			    },
 			    // Load the book with the given context, with context in form {isbn: value} (Called an object literal)
 			    loadBookForIsbn: function(router, isbn13Hash) {
-			        router.transitionTo('books.book', isbn13Hash);
+			        router.transitionTo('books.book.index', isbn13Hash);
 			    },
 				// The entry point (usually); BellBook redirects to either start, or home
 				// based on whether the user has any current transactions. (todo)
@@ -93,6 +94,7 @@ define('logic/router',
 					    },
 						// Connect the book and controller
 						connectOutlets: function(router, isbn13Hash) {
+							console.log("I with this got this works");
 							// Load the controller and connect the outlets defined by the emperorControlelr
 							var parentController = router.get('applicationController');
 							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
@@ -106,11 +108,23 @@ define('logic/router',
 						// List the available books
 						list: Ember.Route.extend({
 							route: '/list',
-							connectOutlets: function(router) {
+							// This may be called before the bookController has even loaded (because it's compeltely asynchronous)
+							connectOutlets: function(router, context) {
 								// Load the controller and connect the outlets defined by the bookController
 								var parentController = router.get('bookController');
 								if (parentController) {
-									router.addControllerAndView('list', parentController, null);
+									// We pass parentController in as the context, because for listController the 
+									// content is treated as the bindingsSource
+									console.log("DAMMIT" + parentController);
+									router.addControllerAndView('list', parentController, parentController);
+									router.removeObserver('bookController', this, 'connectOutlets'); // does nothing if we aren't observer
+								}
+								else {
+									// conneectOutlets failed, probably because book's connectOutlets has yet to finish 
+									// because of asynchronous requireJS loading
+									// if that's the case, make it so that connectOutlets() is called again
+									// when parentController exists, by observing when the property changes
+									router.addObserver('bookController', this, 'connectOutlets');
 								}
 							}
 						}),
