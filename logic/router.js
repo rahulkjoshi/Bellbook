@@ -68,6 +68,8 @@ define('logic/router',
 						var parentController = router.get('applicationController');
 						parentController.set("inputAreaType", "full"); // make the input area become full screen
 						// Load the controller and connect the outlets defined by the emperorControlelr
+												console.log("hi");
+
 						parentController.disconnectOutlet('inputArea'); // remove the extraneous outlets that should no longer be displayed
 						router.addControllerAndView('mainArea','start', parentController, null, null, null);
 					}

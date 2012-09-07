@@ -23,8 +23,7 @@ require.config({
 	paths: {
 		handlebars: 'logic/libs/handlebars-1.0.0.beta.6',
 		jquery: 'logic/libs/jquery-1.7.2.min',
-		ember: 'logic/libs/ember-1.0.pre.min',
-		emberrest: 'logic/libs/ember-rest',
+		ember: 'logic/libs/ember-latest.min',
 		text: 'logic/libs/require/text'
 	},
 	// So, the problem is that ember needs some other files to be loaded before it itself is loaded
@@ -70,6 +69,7 @@ define( 'app', [
 	'logic/views/start',
 	'ember'
 	], 
+
 	/* In RequireJS, this is a callback function that is called when all of ^ finishes loading.
 	 * Hence, we put all our app logic in here. The arguments of the function
 	 * are the different objects RequireJS loaded for us. */
@@ -94,12 +94,10 @@ define( 'app', [
 			ApplicationController: EmperorController,
 			ApplicationView: EmperorView, // ApplicationView is necessary for Ember to function
 
-			ready: function() {
-				// Start the app and load all resources
-				this.initialize();
-			}
 		});
 
+		// Start the app and load all resources
+		App.initialize();
 		return window.Bellbook = App;
 	}
 );
