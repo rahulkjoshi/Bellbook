@@ -10,8 +10,6 @@
  * ===========================================================================
  */
 
- // THIS IS A TEST
-
 // Modified 09-05-2012 by Vervious
 
 /* Informational read: http://codebrief.com/2012/07/anatomy-of-an-ember-dot-js-app-part-i-redux-routing-and-outlets/ */
@@ -70,7 +68,8 @@ define('logic/router',
 						var parentController = router.get('applicationController');
 						parentController.set("inputAreaType", "full"); // make the input area become full screen
 						// Load the controller and connect the outlets defined by the emperorControlelr
-						router.addControllerAndView('start', parentController, null, null, null);
+						parentController.disconnectOutlet('inputArea'); // remove the extraneous outlets that should no longer be displayed
+						router.addControllerAndView('mainArea','start', parentController, null, null, null);
 					}
 				}),
 				// Displayed to show a user's own transactions... like a dashboard
@@ -100,7 +99,8 @@ define('logic/router',
 							var parentController = router.get('applicationController');
 							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
 							parentController.set("isbnInput", isbn13Hash.isbn); // Have the search box contain the isbn 
-							router.addControllerAndView('book', parentController, isbn13Hash, null, null);
+							parentController.disconnectOutlet('mainArea'); // remove the start area
+							router.addControllerAndView('inputArea', 'book', parentController, isbn13Hash, null, null);
 						},
 						// (remember that you can only load leaf nodes/routes)
 						index: Ember.Route.extend({
@@ -114,14 +114,13 @@ define('logic/router',
 								// Load the controller and connect the outlets defined by the bookController
 								var parentController = router.get('bookController');
 								if (parentController) {
-									parentController.set("displayType", "side"); // Shrink the search bar and book info to the sidebar,
-									router.get('applicationController').set("inputAreaType", "basic"); // leaving room for the list view.
+									router.get('applicationController').set("inputAreaType", "basic"); // // Shrink the search bar and book info to the sidebar
 
 									// We pass parentController in as additional context (arguments 4 and 5), because for listController  
 									// we need to bass it a bindingsSource (the bookController, so it knows what book to handle),
 									// and we can't use the normal "context" because that propagates to listController.content
 									// and listController.content has to be an array because listController is an ArrayController.
-									router.addControllerAndView('list', parentController, null, 'bindingSource', parentController);
+									router.addControllerAndView('mainArea', 'list', parentController, null, 'bindingSource', parentController);
 									router.removeObserver('bookController', this, 'connectOutlets'); // does nothing if we aren't observer
 								}
 								else {
@@ -164,9 +163,11 @@ define('logic/router',
 				                });
 				                router.set( name + 'Controller', newController );
 				            }
+				            if (!outletName) outletName = "view";
 				            // Connect outlets and pass normal context
 			                parentController.connectOutlet({
 			                	viewClass: NameView,
+			                	outletName: outletName,
 			                	controller: newController,
 			                	context: context
 			                });
