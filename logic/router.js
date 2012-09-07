@@ -10,7 +10,7 @@
  * ===========================================================================
  */
 
- // THIS IS A  CONFLICT TEST
+ // THIS IS A MERGED CONFLICT TEST
 
 // Modified 09-05-2012 by Vervious
 
@@ -114,6 +114,9 @@ define('logic/router',
 								// Load the controller and connect the outlets defined by the bookController
 								var parentController = router.get('bookController');
 								if (parentController) {
+									parentController.set("displayType", "side"); // Shrink the search bar and book info to the sidebar,
+									router.get('applicationController').set("inputAreaType", "basic"); // leaving room for the list view.
+
 									// We pass parentController in as additional context (arguments 4 and 5), because for listController  
 									// we need to bass it a bindingsSource (the bookController, so it knows what book to handle),
 									// and we can't use the normal "context" because that propagates to listController.content
@@ -141,12 +144,13 @@ define('logic/router',
 			/* Utility Functions */
 			// Lazily load a controller, looking in the normal places
 			// @params
+			// outletName: 					name of outlet to connect
 			// name: 						name of controller/view to load.
 			// parentController: 			the controller who's outlet we are going to insert the new controllers into
 			// context: 					object/data to set as 'newController.content'
 			// additionalContextProperty: 	name of property where to save additional context/pass additional data to newController
 			// additionalContextValue: 		additional context to pass to newController, set as 'additionalContextValue.additionalContextProperty'
-			addControllerAndView: function ( name, parentController, context, additionalContextProperty, additionalContextValue ) {
+			addControllerAndView: function ( outletName, name, parentController, context, additionalContextProperty, additionalContextValue ) {
 				router = this; // After all, we are the router
 				require([ "logic/controllers/" + name, "logic/views/" + name ], 
 					function ( NameController, NameView ) {
