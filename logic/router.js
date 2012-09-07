@@ -68,7 +68,7 @@ define('logic/router',
 						var parentController = router.get('applicationController');
 						parentController.set("inputAreaType", "full"); // make the input area become full screen
 						// Load the controller and connect the outlets defined by the emperorControlelr
-						router.addControllerAndView('start', parentController, null);
+						router.addControllerAndView('start', parentController, null, null, null);
 					}
 				}),
 				// Displayed to show a user's own transactions... like a dashboard
@@ -98,7 +98,7 @@ define('logic/router',
 							var parentController = router.get('applicationController');
 							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
 							parentController.set("isbnInput", isbn13Hash.isbn); // Have the search box contain the isbn 
-							router.addControllerAndView('book', parentController, isbn13Hash);
+							router.addControllerAndView('book', parentController, isbn13Hash, null, null);
 						},
 						// (remember that you can only load leaf nodes/routes)
 						index: Ember.Route.extend({
@@ -112,9 +112,11 @@ define('logic/router',
 								// Load the controller and connect the outlets defined by the bookController
 								var parentController = router.get('bookController');
 								if (parentController) {
-									// We pass parentController in as the context, because for listController the 
-									// content is treated as the bindingsSource
-									router.addControllerAndView('list', parentController, parentController);
+									// We pass parentController in as additional context (arguments 4 and 5), because for listController  
+									// we need to bass it a bindingsSource (the bookController, so it knows what book to handle),
+									// and we can't use the normal "context" because that propagates to listController.content
+									// and listController.content has to be an array because listController is an ArrayController.
+									router.addControllerAndView('list', parentController, null, 'bindingSource', parentController);
 									router.removeObserver('bookController', this, 'connectOutlets'); // does nothing if we aren't observer
 								}
 								else {
@@ -136,7 +138,13 @@ define('logic/router',
 
 			/* Utility Functions */
 			// Lazily load a controller, looking in the normal places
-			addControllerAndView: function ( name, parentController, context ) {
+			// @params
+			// name: 						name of controller/view to load.
+			// parentController: 			the controller who's outlet we are going to insert the new controllers into
+			// context: 					object/data to set as 'newController.content'
+			// additionalContextProperty: 	name of property where to save additional context/pass additional data to newController
+			// additionalContextValue: 		additional context to pass to newController, set as 'additionalContextValue.additionalContextProperty'
+			addControllerAndView: function ( name, parentController, context, additionalContextProperty, additionalContextValue ) {
 				router = this; // After all, we are the router
 				require([ "logic/controllers/" + name, "logic/views/" + name ], 
 					function ( NameController, NameView ) {
@@ -150,11 +158,16 @@ define('logic/router',
 				                });
 				                router.set( name + 'Controller', newController );
 				            }
+				            // Connect outlets and pass normal context
 			                parentController.connectOutlet({
 			                	viewClass: NameView,
 			                	controller: newController,
 			                	context: context
 			                });
+			                // pass addtional context
+			                if (additionalContextProperty && additionalContextValue) {
+				                newController.set(additionalContextProperty, additionalContextValue);
+				            }
 		           		}
 		           		else {
 		           			console.log("Missing Controller or View of type: "+name);

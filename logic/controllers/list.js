@@ -20,20 +20,24 @@ define('logic/controllers/list',
 		// --------------------------------------------------------------------------------------
 		// HOWEVER, when rendering, the view can get a reference to the controller who is controlling it
 		// while remaining fully decoupled, using handlebars rendering contexts, so that's nice.
-		return Ember.Controller.extend({
+
+		// ListController is a subclass of ArrayController
+		return Ember.ArrayController.extend({
 
 			init: function(){
 		        this._super(); // must call super for framework code
 		    },
 
 		    // "Binding source"... we ask for a binding from 'content'
-		    // Set by router.js, as the context. Usually it would be
-		    // a BookController
+		    // Set by router.js using custom code.
+		    bindingSource: null,
+
+		    // Content of the array... an array of listings.
 		    content: null,
 
 		    // The book we represent, as a binding...
 		    // access as this.get('representedBook')
-		    representedBookBinding: "content.representedBook"
+		    representedBookBinding: "bindingSource.representedBook"
 		});
 	}
 );
