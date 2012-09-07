@@ -37,7 +37,7 @@ define('logic/controllers/list',
 
 		    // The book we represent, as a binding...
 		    // access as this.get('representedBook')
-		    representedBookBinding: "bindingSource.representedBook"
+		    representedISBNBinding: "bindingSource.representedBook.isbn13"
 		});
 	}
 );

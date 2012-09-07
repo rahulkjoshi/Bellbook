@@ -17,14 +17,12 @@
 	</label>
 
 	{{outlet inputArea}} <!-- A view within a view; This outlet is contained inside the search bar area, and will be displayed accordingly -->
-	
+
 	</div>
 	<br/>
 	<h4>Data:</h4>Entered ISBN: {{isbnInput}}
-
-
-
-
 </div>
 
+<div id="main-area" {{bindAttr class="inputAreaType"}} > <!-- main area styles change based on input area type -->
 {{outlet mainArea}} <!-- A view within a view; everything else goes here. This outlet lives outside the search bar area. -->
+</div>
