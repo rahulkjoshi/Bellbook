@@ -10,6 +10,8 @@
  * ===========================================================================
  */
 
+ // THIS IS A  CONFLICT TEST
+
 // Modified 09-05-2012 by Vervious
 
 /* Informational read: http://codebrief.com/2012/07/anatomy-of-an-ember-dot-js-app-part-i-redux-routing-and-outlets/ */
