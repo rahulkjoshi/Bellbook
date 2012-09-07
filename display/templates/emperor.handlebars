@@ -15,12 +15,15 @@
 	<label id="input-field-label"> Enter your ISBN here:
 		{{view Ember.TextField id="input-field" placeholder="ISBN13" valueBinding="isbnInput" }} 
 	</label>
+
+	{{outlet inputArea}} <!-- A view within a view; This outlet is contained inside the search bar area, and will be displayed accordingly -->
+	
 	</div>
 	<br/>
 	<h4>Data:</h4>Entered ISBN: {{isbnInput}}
 
 
-{{outlet inputArea}} <!-- A view within a view; everything else goes here. This outlet is contained inside the search bar area, and will be displayed accordingly -->
+
 
 </div>
 

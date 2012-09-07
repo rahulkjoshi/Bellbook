@@ -28,7 +28,14 @@ define('logic/controllers/bellbook',
 		    sendAction: function () {
 		    	var action = this.get('action');
 		    	this.get('target')[action](this);
-		    }
+		    },
+		    // Disconnect an outlet. Future versions of ember should have this
+		    // already implemented, so remove this function once disconnectOutlet
+		    // makes it into Ember. Until then...
+		    disconnectOutlet: function( outletName ) {
+			    outletName = outletName || 'view';
+			   	this.set(outletName, null);
+			},
 		});
 	}
 );
