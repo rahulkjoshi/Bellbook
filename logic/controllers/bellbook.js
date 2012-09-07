@@ -34,7 +34,7 @@ define('logic/controllers/bellbook',
 		    // makes it into Ember. Until then...
 		    disconnectOutlet: function( outletName ) {
 			    outletName = outletName || 'view';
-			   	this.set(outletName, null);
+			   	//this.set(outletName, null);
 			},
 		});
 	}

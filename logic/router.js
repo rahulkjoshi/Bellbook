@@ -97,14 +97,17 @@ define('logic/router',
 						connectOutlets: function(router, isbn13Hash) {
 							// Load the controller and connect the outlets defined by the emperorControlelr
 							var parentController = router.get('applicationController');
-							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
 							parentController.set("isbnInput", isbn13Hash.isbn); // Have the search box contain the isbn 
-							parentController.disconnectOutlet('mainArea'); // remove the start area
 							router.addControllerAndView('inputArea', 'book', parentController, isbn13Hash, null, null);
 						},
 						// (remember that you can only load leaf nodes/routes)
 						index: Ember.Route.extend({
-							route: '/'
+							route: '/',
+							connectOutlets: function (router) {
+								var parentController = router.get('applicationController');
+								parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
+								parentController.disconnectOutlet('mainArea'); // remove the start area
+							}
 						}),
 						// List the available books
 						list: Ember.Route.extend({
@@ -112,22 +115,26 @@ define('logic/router',
 							// This may be called before the bookController has even loaded (because it's compeltely asynchronous)
 							connectOutlets: function(router, context) {
 								// Load the controller and connect the outlets defined by the bookController
-								var parentController = router.get('bookController');
-								if (parentController) {
-									router.get('applicationController').set("inputAreaType", "basic"); // // Shrink the search bar and book info to the sidebar
+								var parentController = router.get('applicationController');
+								var bookController = router.get('bookController');
+								if (parentController && bookController) {
+									parentController.set("inputAreaType", "basic"); // // Shrink the search bar and book info to the sidebar
 
 									// We pass parentController in as additional context (arguments 4 and 5), because for listController  
 									// we need to bass it a bindingsSource (the bookController, so it knows what book to handle),
 									// and we can't use the normal "context" because that propagates to listController.content
 									// and listController.content has to be an array because listController is an ArrayController.
-									router.addControllerAndView('mainArea', 'list', parentController, null, 'bindingSource', parentController);
+									router.addControllerAndView('mainArea', 'list', parentController, null, 'bindingSource', bookController);
 									router.removeObserver('bookController', this, 'connectOutlets'); // does nothing if we aren't observer
+									console.log(bookController);
 								}
 								else {
 									// conneectOutlets failed, probably because book's connectOutlets has yet to finish 
+									// and bookController does not exist,
 									// because of asynchronous requireJS loading
 									// if that's the case, make it so that connectOutlets() is called again
-									// when parentController exists, by observing when the property changes
+									// when bookController exists, by observing when the property changes
+									// Observe router.bookController, calling this.connectOutlet when it changes.
 									router.addObserver('bookController', this, 'connectOutlets');
 								}
 							}
@@ -175,6 +182,7 @@ define('logic/router',
 			                if (additionalContextProperty && additionalContextValue) {
 				                newController.set(additionalContextProperty, additionalContextValue);
 				            }
+
 		           		}
 		           		else {
 		           			console.log("Missing Controller or View of type: "+name);
