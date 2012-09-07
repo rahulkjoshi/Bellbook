@@ -1,10 +1,13 @@
 <?php
 
 /**
- * This is the routing file...
- * The root of all evils...
- * The Entry point and traffic conductor...
- * Welcome to BellBook!
+ * This is the routing file for the API. The frontend asks the backend (us!)
+ * for data through the routes/urls we define in this file.
+ *
+ * Bellbook's API is RESTful. Theoretically any frontend could use it.
+ *
+ * Note that Bellarmine's servers are (if I remember correctly) on PHP 5.2.1 or so.
+ * So keep that in mind with Slim and other frameworks.
  */
 
 
@@ -25,7 +28,11 @@ require 'Slim/Slim.php';
  * However, we could also pass a key-value array of settings.
  * Refer to the online documentation for available settings.
  */
-$app = new Slim();
+$app = new Slim(array(
+    'log.enable' => true,
+    'log.path' => './logs',
+    'log.level' => 4
+));
 
 /**
  * Step 3: Define the Slim application routes
@@ -41,33 +48,33 @@ $app = new Slim();
  * $app->get('/hello/:name', 'myFunction');
  * function myFunction($name) { echo "Hello, $name"; }
  *
- * The routes below work with PHP >= 5.3.
  */
 
-//GET Main Page route
-$app->get('/', function () {
-    include "display/frontend.php";
-});
+/* ====================
+ * API - RESTful data
+ * ==================== */
 
+//GET: retrieve all listings for isbn (todo make isbn10 compatible)
+$app->get('/listings/:isbn', 'getListingsForIsbn');
+function getListingsForIsbn( $isbn ) { 
 
-//GET route
-$app->get('/hello/:name', 'myFunction');
-function myFunction($name) { echo "Hello, $name"; }
-
-//POST route
-$app->post('/person', 'myPostFunction');
-function myPostFunction() { echo "Create New Person"; }
-
-//PUT route
-$app->put('/person/:id', 'myUpdatePersonFunction');
-function myUpdatePersonFunction($id) {
-    echo "Update Person Identified by $id";
+	echo <<<EOD
+{
+ "kind": "listings",
+ "totalItems": 2,
+ "items": [
+  {
+   "seller": "Bob the Builder",
+   "price": "1999"
+  },
+  {
+   "seller": "Chandu",
+   "price": "0"
+  }
+ ]
 }
+EOD;
 
-//DELETE route
-$app->delete('/person/:id', 'myDeletePersonFunction');
-function myDeletePersonFunction($id) {
-    echo "Delete person id'd by $id";
 }
 
 /**

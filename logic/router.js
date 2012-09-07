@@ -94,7 +94,6 @@ define('logic/router',
 					    },
 						// Connect the book and controller
 						connectOutlets: function(router, isbn13Hash) {
-							console.log("I with this got this works");
 							// Load the controller and connect the outlets defined by the emperorControlelr
 							var parentController = router.get('applicationController');
 							parentController.set("inputAreaType", "mid"); // make the input area smaller, making room for the book view
@@ -115,7 +114,6 @@ define('logic/router',
 								if (parentController) {
 									// We pass parentController in as the context, because for listController the 
 									// content is treated as the bindingsSource
-									console.log("DAMMIT" + parentController);
 									router.addControllerAndView('list', parentController, parentController);
 									router.removeObserver('bookController', this, 'connectOutlets'); // does nothing if we aren't observer
 								}
