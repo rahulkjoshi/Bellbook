@@ -52,9 +52,11 @@ define('logic/controllers/list',
 		    		// Remove previous data
 		    		this.set('content', []);
 				    // iterate through the key=>values of the JSON data object
-				    $(jsonData).each(function(key,value){
-				       // TODO: Create a new list model, populate with data, and push to self.
-				    })
+				    if (jsonData && jsonData.totalItems > 0) {
+					    $(jsonData.items).each(function(key,value){
+					       // TODO: Create a new list model, populate with data, and push to self.
+					    })
+					}
 		    	}, this));
 
 		    }.observes('representedISBN')
