@@ -21,23 +21,33 @@ define('logic/controllers/emperor',
 		// @return boolean whether valid
 		function isIsbn13Valid( isbn13 ) { 
 		    check = 0;
-		    for (i = 0; i < 13; i+=2) {
+		    for ( i = 0; i < 13; i+=2 ) {
 		      	check += isbn13.toString()[i]*1;
 		    }
-		    for (i = 1; i < 12; i+=2){
+		    for ( i = 1; i < 12; i+=2 ){
 		      	check += 3 * isbn13.toString()[i]*1;
 		    }
-		    return check % 10 == 0;
+		    if (( check % 10 == 0 ) && ( isbn13.length = 13 )) {
+		    	return true;
+		    }
+		    else {
+		    	return false;
+		    }
 		}
 		// Checks if the passed in string is a valid ISBN10
 		// @param string input
 		// @return boolean whether valid
 		function isIsbn10Valid( isbn10 ) { 
 			check = 0;
-			for (i = 0; i < 9; i++) {
-				check += (i+1) * isbn10.toString()[i];
+			for ( i = 0; i < 9; i++ ) {
+				check += ( i+1 ) * isbn10.toString()[i];
 			}
-			return check % 11 == isbn10.toString()[9];
+			if (( check % 11 == isbn10.toString()[9] ) && ( isbn10.length = 10 )) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 
