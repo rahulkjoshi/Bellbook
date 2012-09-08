@@ -128,7 +128,6 @@ define('logic/router',
 									// and listController.content has to be an array because listController is an ArrayController.
 									router.addControllerAndView('mainArea', 'list', parentController, null, 'bindingSource', bookController);
 									router.removeObserver('bookController', this, 'connectOutlets'); // does nothing if we aren't observer
-									console.log(bookController);
 								}
 								else {
 									// conneectOutlets failed, probably because book's connectOutlets has yet to finish 

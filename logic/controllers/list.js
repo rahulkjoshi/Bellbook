@@ -37,7 +37,27 @@ define('logic/controllers/list',
 
 		    // The book we represent, as a binding...
 		    // access as this.get('representedBook')
-		    representedISBNBinding: "bindingSource.representedBook.isbn13"
+		    representedISBNBinding: "bindingSource.representedBook.isbn13",
+
+		    updateContent: function () {
+
+		    	// Construct the resource URL from which to retrieve backend data.
+		    	// See <http://docs.emberjs.com/symbols/Ember.String.html#method=.fmt> for Docs on 'string.fmt'
+		    	var url = 'api/listings/%@'.fmt(this.get("representedISBN")); // (relative to location of app.js)
+
+	            // Now, update our content.
+	            // Because the scope ('this') changes when entering the function normally, use jQuery's
+		    	// proxy function to make sure that 'this' points to the controller inside the callback.
+		    	$.getJSON(url, $.proxy(function ( jsonData ) { 
+		    		// Remove previous data
+		    		this.set('content', []);
+				    // iterate through the key=>values of the JSON data object
+				    $(jsonData).each(function(key,value){
+				       // TODO: Create a new list model, populate with data, and push to self.
+				    })
+		    	}, this));
+
+		    }.observes('representedISBN')
 		});
 	}
 );

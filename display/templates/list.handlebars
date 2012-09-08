@@ -1,11 +1,13 @@
 
-<!-- List View: Rendering Context = List Controller Singleton -->
+<!-- List View: Rendering Context (this) = List Controller Singleton -->
 <!-- exposed variables: content (subclass of Book model), representedBook of book view  -->
 
-<h1>This is a list!</h1>
-<h1>This is a list!</h1>
-<h1>This is a list!</h1>
-<h1>This is a list!</h1>
-<h1>This is a list!</h1>
+{{#each this}}
+	<!-- Now the context has been changed to each object in the list controller's content array -->
+	<!-- which should be a List object. (instance of List model class) -->
+    <li>
+        <p>Sold By: {{seller}}</p>
+        <p>Price: {{price}}</p>
+    </li>
+{{/each}}
 
-ISBN: {{representedISBN}} 
