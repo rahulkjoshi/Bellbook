@@ -7,4 +7,13 @@
 	<p>This is a placeholder for a list of recent activity on BellBook that will go after the fold.</p>
 	<p>More specifically, recently posted listings, and recently completed transactions</p>
 	<p>(users can, of course, easily mark transactions as private, and no details will be shown)</p>
+
+	{{#each this}}
+		<!-- Now the context has been changed to each object in the start controller's content array -->
+		<!-- which should be an Activity object. (instance of Activity model class) -->
+	    <li>
+	        <p>Type: {{type}}</p>
+	        <p>Book Name: {{book.name}}</p>
+	    </li>
+	{{/each}}
 </div>

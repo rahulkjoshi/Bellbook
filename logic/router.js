@@ -40,8 +40,8 @@ define('logic/router',
 			        router.transitionTo('startHome');
 			    },
 			    // Load the book with the given context, with context in form {isbn: value} (Called an object literal)
-			    loadBookForIsbn: function(router, isbn13Hash) {
-			        router.transitionTo('books.book.index', isbn13Hash);
+			    loadBookForIsbn: function(router, context) {
+			        router.transitionTo('books.book.index', context);
 			    },
 				// The entry point (usually); BellBook redirects to either start, or home
 				// based on whether the user has any current transactions. (todo)
@@ -91,16 +91,16 @@ define('logic/router',
 					// Book: Shows the book with the entered ISBN
 					// Context: {isbn: value}
 					book: Ember.Route.extend ({
-						route: '/:isbn',
+						route: '/:isbn', // Ember Router automatically serializes :isbn into the context {isbn: value}
 						loadList: function(router, event) {
 					        router.transitionTo('list');
 					    },
 						// Connect the book and controller
-						connectOutlets: function(router, isbn13Hash) {
+						connectOutlets: function(router, context) {
 							// Load the controller and connect the outlets defined by the emperorControlelr
 							var parentController = router.get('applicationController');
-							parentController.set("isbnInput", isbn13Hash.isbn); // Have the search box contain the isbn 
-							router.addControllerAndView('inputArea', 'book', parentController, isbn13Hash, null, null);
+							parentController.set("isbnInput", context.isbn); // Have the search box contain the isbn 
+							router.addControllerAndView('inputArea', 'book', parentController, context, null, null);
 						},
 						// (remember that you can only load leaf nodes/routes)
 						index: Ember.Route.extend({

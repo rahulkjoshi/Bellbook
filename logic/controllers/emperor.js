@@ -64,6 +64,7 @@ define('logic/controllers/emperor',
 		    },
 		    // The current input value; usually bound to a text field in EmperorView in emperor.handlebars
 		    isbnInput: "",
+
 		    // The current type of isbn input field area - whether to fill screen (full),
 		    // fill a third of the screen (mid)
 		    // Or be positioned like a normal search bar at the top left (basic)
@@ -73,11 +74,13 @@ define('logic/controllers/emperor',
 		    // Actions
 		    isbnInputDidChange: function () {
 		    	var newISBNInput = this.get('isbnInput');
-
-		    	// Now, strip the input so that it is a string with only digits
-			    newISBNInput = newISBNInput.replace(/[^0-9]+/g, '');
-
-		    	var valid = isIsbn10Valid(newISBNInput) || isIsbn13Valid(newISBNInput);
+		    	var valid = false;
+		    	if (!newISBNInput) valid = false;
+		    	else { 
+			    	// Now, strip the input so that it is a string with only digits
+				    newISBNInput = newISBNInput.replace(/[^0-9]+/g, '');
+			    	valid = isIsbn10Valid(newISBNInput) || isIsbn13Valid(newISBNInput);
+			    }
 		    	if (valid) {
 		    		this.openBookWithISBN(newISBNInput);
 		    	}
