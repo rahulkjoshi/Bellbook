@@ -50,8 +50,13 @@ $app = new Slim(array(
  *
  */
 
+/* 
+ * Remember that for books, the isbn13 is treated as the unique book_id
+ * and the isbn10 used as a fallback if 13 doesn't exist.
+ */
+
 /* ====================
- * API - RESTful data
+ * API - RESTful data - currently populated with placeholder data
  * ==================== */
 
 //GET: retrieve all listings for isbn (todo make isbn10 compatible)
@@ -60,16 +65,61 @@ function getListingsForIsbn( $isbn ) {
 
 	echo <<<EOD
 {
- "kind": "listings",
+ "type": "listings",
  "totalItems": 2,
  "items": [
   {
-   "seller": "Bob the Builder",
-   "price": "1999"
+    "seller": "Bob the Builder",
+    "price": "1999"
   },
   {
-   "seller": "Chandu",
-   "price": "0"
+    "seller": "Chandu",
+    "price": "0"
+  }
+ ]
+}
+EOD;
+
+}
+
+//GET: retrieve recent activity objects, specifying the number of objects to retrieve
+$app->get('/activity/:number', 'getRecentActivity');
+function getRecentActivity( $number ) { 
+
+  echo <<<EOD
+{
+ "type": "activities",
+ "totalItems": 3,
+ "items": [
+  {
+    "type": "newListing",
+    "seller": "Bob the Builder",
+    "price": "1999",
+    "book": {
+      "isbn": "9781890132828",
+      "title": "Green Grapes of Grendel",
+      "imageUrl": "http://ecx.images-amazon.com/images/I/51kR%2BJ1ZcKL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
+    }
+  },
+  {
+    "type": "newListing",
+    "seller": "Chandu",
+    "price": "0",
+    "book": {
+      "isbn": "9780595465514",
+      "title": "Chandu's Handbook to Bellarmine College Prep",
+      "imageUrl": "http://ecx.images-amazon.com/images/I/413zLWUs8LL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
+    }
+  },
+  {
+    "type": "completedPublicTransaction",
+    "seller": "Chandu",
+    "buyer": "Bob the Builder",
+    "book": {
+      "isbn": "9780735619678",
+      "title": "Code Complete",
+      "imageUrl": "http://ecx.images-amazon.com/images/I/51nWkLCu1SL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
+    }
   }
  ]
 }
