@@ -27,7 +27,7 @@ define('logic/controllers/emperor',
 		    for ( i = 1; i < 12; i+=2 ){
 		      	check += 3 * isbn13.toString()[i]*1;
 		    }
-		    if (( check % 10 == 0 ) && ( isbn13.length = 13 )) {
+		    if (( check % 10 == 0 ) && ( isbn13.length == 13 )) {
 		    	return true;
 		    }
 		    else {
@@ -42,7 +42,7 @@ define('logic/controllers/emperor',
 			for ( i = 0; i < 9; i++ ) {
 				check += ( i+1 ) * isbn10.toString()[i];
 			}
-			if (( check % 11 == isbn10.toString()[9] ) && ( isbn10.length = 10 )) {
+			if (( check % 11 == isbn10.toString()[9] ) && ( isbn10.length == 10 )) {
 				return true;
 			}
 			else {
