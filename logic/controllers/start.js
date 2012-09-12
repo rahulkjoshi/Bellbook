@@ -12,8 +12,8 @@
 // Modified 08-19-2012 by Vervious
  
 define('logic/controllers/start', 
-	[ 'ember' ],
-	function(  ) {
+	[ 'logic/models/activity', 'logic/models/book', 'ember' ],
+	function( ActivityItemModel, BookModel ) {
 		// Note that controllers are defined separately from views - sort of
 		// The relationship between the two is up to the view, router, or Ember to create
 		// --------------------------------------------------------------------------------------
@@ -39,9 +39,20 @@ define('logic/controllers/start',
 		    		this.set('content', []);
 				    // iterate through the key=>values of the JSON data object
 				    if (jsonData && jsonData.totalItems > 0) {
-					    $(jsonData.items).each(function(key,value){
-					       // TODO: Create a new Activity model, populate with data, and push to self.
-					    })
+				    	var eachLoop = $.proxy(function(key,value){
+					    	console.log(value);
+					        // Create a new Activity model
+					        var activityItem = ActivityItemModel.create();
+					        activityItem.set("type", value.type);
+					        activityItem.set("seller", value.seller);
+					        activityItem.set("buyer", value.buyer);
+					        activityItem.set("price", value.price);
+					        var isbn = value.isbn;
+					        if (isbn)
+					        	activityItem.set("book", BookModel.create({ isbnToLoad: isbn }));
+					        this.pushObject(activityItem);
+					    }, this);
+					    $(jsonData.items).each(eachLoop);
 					}
 		    	}, this));
 		    }

@@ -13,7 +13,12 @@
 		<!-- which should be an Activity object. (instance of Activity model class) -->
 	    <li>
 	        <p>Type: {{type}}</p>
-	        <p>Book Name: {{book.name}}</p>
+	        <p>Book Name: {{book.title}}</p>
+	        {{#if book.imageLinkSmall}}
+				<img src="{{unbound book.imageLinkSmall}}" />
+			{{else}}
+				<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png" />
+			{{/if}}
 	    </li>
 	{{/each}}
 </div>

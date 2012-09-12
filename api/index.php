@@ -95,31 +95,19 @@ function getRecentActivity( $number ) {
     "type": "newListing",
     "seller": "Bob the Builder",
     "price": "1999",
-    "book": {
-      "isbn": "9781890132828",
-      "title": "Green Grapes of Grendel",
-      "imageUrl": "http://ecx.images-amazon.com/images/I/51kR%2BJ1ZcKL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
-    }
+    "isbn": "9780735619678"
   },
   {
     "type": "newListing",
     "seller": "Chandu",
     "price": "0",
-    "book": {
-      "isbn": "9780595465514",
-      "title": "Chandu's Handbook to Bellarmine College Prep",
-      "imageUrl": "http://ecx.images-amazon.com/images/I/413zLWUs8LL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
-    }
+    "isbn": "9780595465514"
   },
   {
     "type": "completedPublicTransaction",
     "seller": "Chandu",
     "buyer": "Bob the Builder",
-    "book": {
-      "isbn": "9780735619678",
-      "title": "Code Complete",
-      "imageUrl": "http://ecx.images-amazon.com/images/I/51nWkLCu1SL._BO2,204,203,200_PIsitb-sticker-arrow-click,TopRight,35,-76_AA300_SH20_OU01_.jpg"
-    }
+    "bisbn": "9780735619678"
   }
  ]
 }

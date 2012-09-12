@@ -86,6 +86,7 @@ define('logic/models/book',
 		    		return null;
 		    	}
 
+				console.log("Fetching data from Google Books.");
 		    	// Finally, we can work with our volumeJSON data.
 		    	// Update the represented book. Any changes we make to _representedBook are saved 
 		    	// to this._representedBook because this._representedBook is an object.
@@ -102,6 +103,7 @@ define('logic/models/book',
 		    		if (!imageLink) imageLink = volumeJSON.volumeInfo.imageLinks.thumbnail;
 		    		if (!imageLink) imageLink = volumeJSON.volumeInfo.imageLinks.smallThumbnail;
 		    		this.set('imageLinkSmall', imageLink); // can be null
+		    		console.log("updated Book image.");
 		    	}
 		    	else this.set('imageLinkSmall', false);
 			}
