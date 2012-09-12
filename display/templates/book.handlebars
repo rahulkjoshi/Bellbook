@@ -4,21 +4,20 @@
 <!-- Also note that we have a Book model object named "representedBook" to represent. -->
 
 <div id="book">
-	<h1>This is the Book view</h1>
-	<p>This is a placeholder for a representation for a single book, identified by ISBN.</p>
-
+	<h1>Your Book: {{representedBook.title}} </h1>
 	<hr />
+	<h1>The ISBN you entered has returned the following results:</h1>
 	
 	{{#if representedBook}}
 		<!-- display book data if available -->
-	  	<h1>title: {{representedBook.title}}</h1>
+	  	<p>Title: {{representedBook.title}}</p>
 		<p>ISBN: {{representedBook.isbn13}}</p>
 		<p>Author(s): 
 		{{#each representedBook.authors}}
 			({{this}})
 		{{/each}}
 		</p>
-		<p>publisher: {{representedBook.publisher}}</p>
+		<p>Publisher: {{representedBook.publisher}}</p>
 		{{#if representedBook.imageLinkSmall}}
 			<img src="{{unbound representedBook.imageLinkSmall}}" />
 		{{else}}
@@ -26,7 +25,8 @@
 		{{/if}}
 
 	<a {{action loadList}}>
-    	click me to view book listings (should only appear if validated and book is found)
+    	<p><h1>Click here to view books for sale!</h1></p> 
+    	<p>(should only appear if validated and book is found)</p>
   	</a>
 
 	{{else}}
