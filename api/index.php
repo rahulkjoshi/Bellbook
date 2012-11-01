@@ -19,7 +19,7 @@
  * directory elsewhere, ensure that it is added to your include path
  * or update this file path as needed.
  */
-require 'Slim/Slim.php';
+require 'vendors/Slim/Slim.php';
 
 /**
  * Step 2: Instantiate the Slim application
@@ -34,86 +34,11 @@ $app = new Slim(array(
     'log.level' => 4
 ));
 
-/**
- * Step 3: Define the Slim application routes
- *
- * Here we define several Slim application routes that respond
- * to appropriate HTTP request methods. In this example, the second
- * argument for `Slim::get`, `Slim::post`, `Slim::put`, and `Slim::delete`
- * is an anonymous function. If you are using PHP < 5.3, the
- * second argument should be any variable that returns `true` for
- * `is_callable()`. An example GET route for PHP < 5.3 is:
- *
- * $app = new Slim();
- * $app->get('/hello/:name', 'myFunction');
- * function myFunction($name) { echo "Hello, $name"; }
- *
- */
+// /browse urls
+require_once( 'backend/browse.php' );
+// /profile urls
+require_once( 'backend/user.php' );
 
-/* 
- * Remember that for books, the isbn13 is treated as the unique book_id
- * and the isbn10 used as a fallback if 13 doesn't exist.
- */
-
-/* ====================
- * API - RESTful data - currently populated with placeholder data
- * ==================== */
-
-//GET: retrieve all listings for isbn (todo make isbn10 compatible)
-$app->get('/listings/:isbn', 'getListingsForIsbn');
-function getListingsForIsbn( $isbn ) { 
-
-	echo <<<EOD
-{
- "type": "listings",
- "totalItems": 2,
- "items": [
-  {
-    "seller": "Bob the Builder",
-    "price": "1999"
-  },
-  {
-    "seller": "Chandu",
-    "price": "0"
-  }
- ]
-}
-EOD;
-
-}
-
-//GET: retrieve recent activity objects, specifying the number of objects to retrieve
-$app->get('/activity/:number', 'getRecentActivity');
-function getRecentActivity( $number ) { 
-
-  echo <<<EOD
-{
- "type": "activities",
- "totalItems": 3,
- "items": [
-  {
-    "type": "newListing",
-    "seller": "Bob the Builder",
-    "price": "1999",
-    "isbn": "9780735619678"
-  },
-  {
-    "type": "newListing",
-    "seller": "Chandu",
-    "price": "0",
-    "isbn": "9780595465514"
-  },
-  {
-    "type": "completedPublicTransaction",
-    "seller": "Chandu",
-    "buyer": "Bob the Builder",
-    "bisbn": "9780735619678"
-  }
- ]
-}
-EOD;
-
-}
 
 /**
  * Step 4: Run the Slim application

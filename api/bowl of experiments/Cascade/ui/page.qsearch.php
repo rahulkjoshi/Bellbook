@@ -1,1 +1,0 @@
-<i> This is the quick-search </i>
