@@ -37,7 +37,7 @@ $app = new Slim(array(
 // /browse urls
 require_once( 'backend/browse.php' );
 // /profile urls
-require_once( 'backend/user.php' );
+require_once( 'backend/profile.php' );
 
 
 /**

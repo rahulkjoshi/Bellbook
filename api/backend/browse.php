@@ -23,9 +23,13 @@
  * ==================== */
 
 // GET: retrieve recent listings, passing in the number
-$app->get('/browse/recent/:number', 'getRecentListings');
+$app->get('/browse/listings/recent/:number', 'getRecentListings');
 // GET: retrieve recent listings, passing in the number
-$app->get('/browse/:query', 'getSearch');
+$app->get('/browse/listings/:query', 'getSearch');
+// GET: retrieve a specific listing
+$app->get('/browse/listings/:id', 'getListing');
+// GET: retrieve all bids for listings
+$app->get('/browse/listings/:id/bids', 'getBidsForListing');
 
 
 
@@ -36,7 +40,18 @@ $app->get('/browse/:query', 'getSearch');
 
 // GET: retrieve recent listings, passing in the number
 function getRecentListings( $number ) { 
+
 }
 
 function getSearch( $query ) { 
 }
+
+function getListing( $listingID ) {
+
+}
+
+function getBidsForListing( $listingID ) {
+
+}
+
+
