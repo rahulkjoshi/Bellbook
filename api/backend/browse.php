@@ -22,17 +22,42 @@
  * API - RESTful data - CRUD
  * ==================== */
 
-// GET: retrieve recent listings, passing in the number
+// GET: retrieve recent listings, passing in the number, @return list of listings
 $app->get('/browse/listings/recent/:number', 'getRecentListings');
-// GET: retrieve recent listings, passing in the number
+// GET: retrieve recent listings, passing in the number, @return list of listings
 $app->get('/browse/listings/:query', 'getSearch');
-// GET: retrieve a specific listing
+// GET: retrieve a specific listing, @return a listing (w/o list of bids)
 $app->get('/browse/listings/:id', 'getListing');
-// GET: retrieve all bids for listings
+// GET: retrieve all bids for listings, @return a list of bids
 $app->get('/browse/listings/:id/bids', 'getBidsForListing');
+// GET: retrieve a specific book, @return a book
+$app->get('/browse/books/:id:', 'getBook');
 
+/* @return: list of listings
+{
+ "type": "listings",
+ "totalItems": 3,
+ "items": [
+  {
+    ... // See listing object beow
+  },
+  {
+    ... // See listing object beow
+  },
+  {
+    ... // See listing object beow
+  }
+ ]
+}
+*/
 
-
+/* @return: a listing
+{
+    "type": "listing",
+    "seller": "Chandu",
+    "isbn": "9780735619678"
+}
+*/
 
 /* ====================
  * API - Implementation
@@ -54,4 +79,7 @@ function getBidsForListing( $listingID ) {
 
 }
 
+function getBook( $bookID ) {
+	
+} 
 
