@@ -25,17 +25,17 @@
 // GET: retrieve new user form
 $app->get('/user/create/', 'createUserForm( )');
 // POST: submit information entered into the form
-$app->post('/user/cUsers', 'createUserDB( )');
+$app->post('/user/cUsers/', 'createUserDB( )');
 // GET: retrive existing user information
-$app->get('user/view', 'getUserInfo( )');
+$app->get('/user/view/:uid', 'getUserInfo( )');
 // GET: retrive the edit existing user form
-$app->get('/user/edit/', 'editUserForm( )');
+$app->get('/user/edit/:uid', 'editUserForm( )');
 // POST: submit deletion request for user
-$app->post('user/delete/', 'deleteUser( )');
+$app->post('/user/delete/:uid', 'deleteUser( )');
 // PUT: update the user information
-$app->put('user/update/', 'updateUserDB( )');
+$app->put('/user/update/:uid', 'updateUserDB( )');
 // GET: retrive the notifications sent to or from the user
-$app->get('user/notifications/', 'getUserNotifications( )')
+$app->get('/user/notifications/:uid', 'getUserNotifications( )')
 
 /* ====================
  * API - Implementation
@@ -62,4 +62,3 @@ function updateUserDB( ){
 // GET: retrive the notifcations sent to or from the user
 function getUserNotifications( ){
 }
-//
