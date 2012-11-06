@@ -1,11 +1,11 @@
 <?php
 	unset($CFG);
 
+	// Do not commit your information to origin
 	$CFG = new stdClass();
-	$CFG->key = 'aardvark';
 	$CFG->host = 'localhost';
-	$CFG->loginID = 'benC13';
-	$CFG->pass = 'Quercus@987';
-	$CFG->database = 'playground12';
-	$CFG->prefix = 'bc_';
+	$CFG->loginID = 'user';
+	$CFG->pass = 'password';
+	$CFG->database = 'database_name';
+	$CFG->prefix = 'bb_';
 ?>

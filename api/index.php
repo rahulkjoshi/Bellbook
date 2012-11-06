@@ -1,5 +1,8 @@
 <?php
 
+/* Require database stuff */
+require_once("functions/conf.inc.php");
+
 /**
  * This is the routing file for the API. The frontend asks the backend (us!)
  * for data through the routes/urls we define in this file.

@@ -35,6 +35,7 @@ $app->put('/user/update/:uid', 'updateUserDB');
 // GET: retrive the notifications sent to or from the user
 $app->get('/user/notifications/:uid', 'getUserNotifications')
 
+
 /* ====================
  * API - Implementation
  * ==================== */
