@@ -22,6 +22,7 @@
  * API - RESTful data - CRUD
  * ==================== */
 
+// ======= SEARCH/LISTINGS RETRIEVAL ========
 // GET: retrieve recent listings, passing in the number, @return list of listings
 $app->get('/browse/listings/recent/:number', 'getRecentListings');
 // GET: retrieve recent listings, passing in the number, @return list of listings
@@ -59,6 +60,22 @@ $app->get('/browse/books/:id:', 'getBook');
 }
 */
 
+// ======= LISTINGS CRUD ========
+// There will be an authenticated user context - so that's not an issue
+// POST: create a listing, @in listing information
+$app->post('/listings/create', 'createListing');
+// PUT: update a listing, @in listing information
+$app->put('/listings/:listingid/edit', 'editListing');
+// DELETE: delete a listing, @in 
+$app->put('/listings/:listingid/delete', 'deleteListing');
+// POST: create a bid, @in bid information
+$app->post('/listings/:listingid/createBid', 'createBidForListing');
+// PUT: update a bid, @in bid information
+$app->put('/listings/:bidid', 'editBid');
+// DELETE: delete a bid, @in 
+$app->put('/listings/:bidid/delete', 'deleteBid');
+
+
 /* ====================
  * API - Implementation
  * ==================== */
@@ -82,4 +99,28 @@ function getBidsForListing( $listingID ) {
 function getBook( $bookID ) {
 	
 } 
+
+function createListing( ) {
+
+}
+
+function editListing( $listingID ) {
+
+}
+
+function deleteListing( $listingID ) {
+
+}
+
+function createBidForListing( $listingID ) {
+
+}
+
+function editBid( $bidID ) {
+
+}
+
+function deleteBid( $bidID ) {
+
+}
 
