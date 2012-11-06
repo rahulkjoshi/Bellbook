@@ -23,42 +23,37 @@
  * ==================== */
 
 // GET: retrieve new user form
-$app->get('/user/create/', 'createUserForm( )');
+$app->get('/user/create/', 'createUserDB');
 // POST: submit information entered into the form
-$app->post('/user/cUsers/', 'createUserDB( )');
-// GET: retrive existing user information
-$app->get('/user/view/:uid', 'getUserInfo( )');
+$app->get('/user/view/:uid', 'getUserInfo');
 // GET: retrive the edit existing user form
-$app->get('/user/edit/:uid', 'editUserForm( )');
+$app->get('/user/edit/:uid', 'editUserForm');
 // POST: submit deletion request for user
-$app->post('/user/delete/:uid', 'deleteUser( )');
+$app->post('/user/delete/:uid', 'deleteUser');
 // PUT: update the user information
-$app->put('/user/update/:uid', 'updateUserDB( )');
+$app->put('/user/update/:uid', 'updateUserDB');
 // GET: retrive the notifications sent to or from the user
-$app->get('/user/notifications/:uid', 'getUserNotifications( )')
+$app->get('/user/notifications/:uid', 'getUserNotifications')
 
 /* ====================
  * API - Implementation
  * ==================== */
 
-// GET: render the new user form
-function createUserForm( ) { 
-}
-// POST: submit informatin entered into the form
+// POST: submit informatin entered into the user creation form
 function createUserDB( ) { 
 }
 // GET: retrive existing user information
-function getUserInfo( ) {
+function getUserInfo($uid) {
 }
 // GET: retrive the edit existing user form
-function editUserForm( ){
+function editUserForm($uid){
 }
 // POST: submit deletion request for user
-function deleteUser( ){
+function deleteUser($uid){
 }
 // PUT: update the user information
-function updateUserDB( ){
+function updateUserDB($uid){
 }
 // GET: retrive the notifcations sent to or from the user
-function getUserNotifications( ){
+function getUserNotifications($uid){
 }
