@@ -1,6 +1,12 @@
 <?php
 
-// $app will be defined as the slim object for this to work.
+/* 
+* $app 
+*       -will be defined as the slim object for this to work.
+*   $mysqli 
+*   -will be defined as the database object for this to work
+*/
+
 
 /**
  * Step 3: Define the Slim application routes

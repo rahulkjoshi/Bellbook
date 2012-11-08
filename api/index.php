@@ -2,6 +2,8 @@
 
 /* Require database stuff */
 require_once("functions/conf.inc.php");
+require_once("functions/connection.php");
+
 
 /**
  * This is the routing file for the API. The frontend asks the backend (us!)
@@ -13,6 +15,7 @@ require_once("functions/conf.inc.php");
  * So keep that in mind with Slim and other frameworks.
  */
 
+$mysqli = newConnection( $CFG );
 
 /**
  * Step 1: Require the Slim PHP 5 Framework
