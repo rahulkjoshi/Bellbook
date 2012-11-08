@@ -4,7 +4,7 @@
 * $app 
 *       -will be defined as the slim object for this to work.
 *   $mysqli 
-*   -will be defined as the database object for this to work
+*       -will be defined as the database object for this to work
 */
 
 

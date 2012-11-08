@@ -1,8 +1,8 @@
 <?php
 
 /* Require database stuff */
-require_once("functions/conf.inc.php");
-require_once("functions/connection.php");
+// Define our $mysqli variable
+require_once("functions/access.php");
 
 
 /**
@@ -14,8 +14,6 @@ require_once("functions/connection.php");
  * Note that Bellarmine's servers are (if I remember correctly) on PHP 5.2.1 or so.
  * So keep that in mind with Slim and other frameworks.
  */
-
-$mysqli = newConnection( $CFG );
 
 /**
  * Step 1: Require the Slim PHP 5 Framework
