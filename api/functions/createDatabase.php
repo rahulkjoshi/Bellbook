@@ -210,5 +210,17 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 EOL;
 
-$result = $connection->multi_query($query);
+if ($connection->multi_query($query)) {
+	do{
+		if ($result = $connection->use_result()) {
+			echo ("Completed!!");
+		}
+
+		$result->close();
+	} while ($connection->next_result())
+} else {
+	echo ("Ben Chan failed in writing the SQL code!!!! $connection->connect_error")
+}
+
+$connection->close();
 ?>
