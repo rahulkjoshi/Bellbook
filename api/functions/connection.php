@@ -13,10 +13,10 @@
 	    $prefix = $CFG->prefix;
 
 	    // Creates mySQL object for data query
-	    $mysqli = @new mysqli($host, $login, $password, $database);
+	    $mysqli = new mysqli($host, $login, $password, $database);
 	    
 	    // Attempt to connect to mySQL database, and catches errors instead of crashing
-	    if ($mysqli->connect_error) {
+	    if ($mysqli->connect_errno) {
 	      die('Connect Error: ' . $mysqli->connect_error);
 	    }
 
