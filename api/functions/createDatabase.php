@@ -5,6 +5,8 @@ require_once ('connection.php');
 
 $connection = newConnection ($CFG);
 
+$prefix = $connection->prefix;
+
 $query = <<<EOL
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -13,11 +15,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 
 -- -----------------------------------------------------
--- Table `user`
+-- Table `{$prefix}user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user` ;
+DROP TABLE IF EXISTS `{$prefix}user` ;
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `{$prefix}user` (
 `user_id` INT NOT NULL AUTO_INCREMENT ,
 `first_name` VARCHAR(60) NOT NULL ,
 `last_name` VARCHAR(60) NOT NULL ,
@@ -36,11 +38,11 @@ COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `book`
+-- Table `{$prefix}book`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `book` ;
+DROP TABLE IF EXISTS `{$prefix}book` ;
 
-CREATE TABLE IF NOT EXISTS `book` (
+CREATE TABLE IF NOT EXISTS `{$prefix}book` (
 `book_id` INT NOT NULL AUTO_INCREMENT ,
 `title` VARCHAR(255) NULL ,
 `ISBN` VARCHAR(45) NULL ,
@@ -59,11 +61,11 @@ COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `listing`
+-- Table `{$prefix}listing`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `listing` ;
+DROP TABLE IF EXISTS `{$prefix}listing` ;
 
-CREATE TABLE IF NOT EXISTS `listing` (
+CREATE TABLE IF NOT EXISTS `{$prefix}listing` (
 `listing_id` INT NOT NULL AUTO_INCREMENT ,
 `user_id` INT NOT NULL ,
 `book_id` INT NOT NULL ,
@@ -96,11 +98,11 @@ COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `bid`
+-- Table `{$prefix}bid`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bid` ;
+DROP TABLE IF EXISTS `{$prefix}bid` ;
 
-CREATE TABLE IF NOT EXISTS `bid` (
+CREATE TABLE IF NOT EXISTS `{$prefix}bid` (
 `bid_id` INT NOT NULL AUTO_INCREMENT ,
 `user_id` INT NOT NULL ,
 `listing_id` INT NOT NULL COMMENT 'If the corresponding sell_offer is deleted, the buy_offer will still show up on the user\\\'s own page but say \\\"Sell Offer removed by user\\\" or seomthing' ,
@@ -127,11 +129,11 @@ COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `notifications`
+-- Table `{$prefix}notifications`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `notifications` ;
+DROP TABLE IF EXISTS `{$prefix}notifications` ;
 
-CREATE TABLE IF NOT EXISTS `notifications` (
+CREATE TABLE IF NOT EXISTS `{$prefix}notifications` (
 `text` TEXT NULL ,
 `user_id` INT NOT NULL ,
 `sent` TINYINT NOT NULL DEFAULT 0 ,
@@ -148,11 +150,11 @@ COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `login_info`
+-- Table `{$prefix}login_info`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `login_info` ;
+DROP TABLE IF EXISTS `{$prefix}login_info` ;
 
-CREATE TABLE IF NOT EXISTS `login_info` (
+CREATE TABLE IF NOT EXISTS `{$prefix}login_info` (
 `password` VARCHAR(255) NOT NULL ,
 `user_id` INT NOT NULL ,
 PRIMARY KEY (`user_id`) ,
@@ -168,11 +170,11 @@ COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `course`
+-- Table `{$prefix}course`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `course` ;
+DROP TABLE IF EXISTS `{$prefix}course` ;
 
-CREATE TABLE IF NOT EXISTS `course` (
+CREATE TABLE IF NOT EXISTS `{$prefix}course` (
 `course_id` INT NOT NULL ,
 `name` VARCHAR(45) NOT NULL ,
 `teacher` VARCHAR(45) NOT NULL ,
@@ -181,11 +183,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `course_has_book`
+-- Table `{$prefix}course_has_book`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `course_has_book` ;
+DROP TABLE IF EXISTS `{$prefix}course_has_book` ;
 
-CREATE TABLE IF NOT EXISTS `course_has_book` (
+CREATE TABLE IF NOT EXISTS `{$prefix}course_has_book` (
 `course_course_id` INT NOT NULL ,
 `book_book_id` INT NOT NULL ,
 PRIMARY KEY (`course_course_id`, `book_book_id`) ,
@@ -210,16 +212,15 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 EOL;
 
-if ($connection->multi_query($query)) {
-	do{
-		if ($result = $connection->use_result()) {
-			echo ("Completed!!");
-		}
+if ($result = $connection->multi_query($query)) {
 
-		$result->close();
-	} while ($connection->next_result())
+	do{
+
+		if ($result) echo ("Completed!!\n");
+
+	} while ($result = $connection->next_result());
 } else {
-	echo ("Ben Chan failed in writing the SQL code!!!! $connection->connect_error")
+	echo ("Ben Chan failed in writing the SQL code!!!! $connection->connect_error");
 }
 
 $connection->close();
