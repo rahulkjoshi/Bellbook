@@ -215,7 +215,6 @@ EOL;
 if ($result = $connection->multi_query($query)) {
 
 	do{
-
 		if ($result) echo ("Completed!!\n");
 
 	} while ($result = $connection->next_result());
