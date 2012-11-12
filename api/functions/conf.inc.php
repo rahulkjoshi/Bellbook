@@ -7,5 +7,5 @@
 	$CFG->loginID = 'user';
 	$CFG->pass = 'password';
 	$CFG->database = 'database_name';
-	$CFG->prefix = 'bb_';
+	$CFG->prefix = 'bcrj_';
 ?>
