@@ -3,7 +3,7 @@
 /* 
 * $app 
 *       -will be defined as the slim object for this to work.
-*   $mysqli 
+* $mysqli 
 *       -will be defined as the database object for this to work
 */
 
@@ -31,8 +31,8 @@
 // ======= SEARCH/LISTINGS RETRIEVAL ========
 // GET: retrieve recent listings, passing in the number, @return list of listings
 $app->get('/browse/listings/recent/:number', 'getRecentListings');
-// GET: retrieve recent listings, passing in the number, @return list of listings
-$app->get('/browse/listings/:query', 'getSearch');
+// GET: retrieve a list of listings, and books based on the entered query
+$app->get('/browse/:query', 'getSearch');
 // GET: retrieve a specific listing, @return a listing (w/o list of bids)
 $app->get('/browse/listings/:id', 'getListing');
 // GET: retrieve all bids for listings, @return a list of bids
@@ -47,6 +47,24 @@ $app->get('/browse/books/:id:', 'getBook');
  "items": [
   {
     ... // See listing object beow
+  },
+  {
+    ... // See listing object beow
+  },
+  {
+    ... // See listing object beow
+  }
+ ]
+}
+*/
+
+/* @return: search result
+{
+ "type": "all",
+ "totalItems": 3,
+ "items": [
+  {
+    ... // See book object beow
   },
   {
     ... // See listing object beow
@@ -88,13 +106,29 @@ $app->put('/listings/:bidid/delete', 'deleteBid');
 
 // GET: retrieve recent listings, passing in the number
 function getRecentListings( $number ) { 
-
+  // Return the $number most recent listings
+  // Simple query of the listing table
 }
 
+// GET:
+// Query can be a user name (return listings the user is selling),
+// Book name/keywords, author, ISBN, etc.
 function getSearch( $query ) { 
+  // Perform a basic search, returning a list of listings, books
+  // Use MySQL to perform this search for now, using regex to parse the query
 }
 
+// GET: retrieve a specific listing
 function getListing( $listingID ) {
+  // TODO: Clean up input
+  global $mysqli;
+  $prefix = $mysqli->prefix;
+  $query = <<<VEV
+    SELECT * FROM  `{$prefix}listing` WHERE listing_id = {$listingID}
+VEV;
+  if ($result = $mysqli->query($query)) {
+    
+  }
 
 }
 
